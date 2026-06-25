@@ -17,9 +17,57 @@ namespace PP11
     /// </summary>
     public partial class RegistrationWindow : Window
     {
+        private List<string> roles = new List<string>() {
+            "Администратор",
+            "Диспетчер",
+            "Руководитель"
+        };
+        private List<string> filials = new List<string>()
+        {
+            "Оренбург",
+            "Бузулук",
+            "Орск",
+            "Медногорск",
+            "Новотроицк",
+            "Кувандык",
+            "Гай",
+            "Сорочинск",
+            "Абдулино",
+            "Бугуруслан"
+
+        };
+
         public RegistrationWindow()
         {
             InitializeComponent();
+            RolesComboBox.ItemsSource = roles;
+            FilialComboBox.ItemsSource = filials;
+        }
+
+
+        private void EnterLabel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+           LoginWindow loginWindow = new LoginWindow();
+            loginWindow.Show(); this.Close();
+        }
+
+        private void EnterLabel_MouseEnter(object sender, MouseEventArgs e) => EnterLabel.FontWeight = FontWeights.Bold;
+
+        private void EnterLabel_MouseLeave(object sender, MouseEventArgs e) => EnterLabel.FontWeight = FontWeights.Normal;
+
+        private void RegistrButton_Click(object sender, RoutedEventArgs e)
+        {
+            ErrorLabel.Content = "Error";
+        }
+
+        private void RegistrButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            RegistrButton.Foreground = Brushes.Black;
+        }
+
+        private void RegistrButton_MouseLeave(object sender, MouseEventArgs e)
+        {
+            RegistrButton.Foreground = Brushes.White;
         }
     }
 }
