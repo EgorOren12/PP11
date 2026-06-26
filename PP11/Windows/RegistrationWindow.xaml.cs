@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PP11.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,31 +18,11 @@ namespace PP11
     /// </summary>
     public partial class RegistrationWindow : Window
     {
-        private List<string> roles = new List<string>() {
-            "Администратор",
-            "Диспетчер",
-            "Руководитель"
-        };
-        private List<string> filials = new List<string>()
-        {
-            "Оренбург",
-            "Бузулук",
-            "Орск",
-            "Медногорск",
-            "Новотроицк",
-            "Кувандык",
-            "Гай",
-            "Сорочинск",
-            "Абдулино",
-            "Бугуруслан"
-
-        };
-
         public RegistrationWindow()
         {
             InitializeComponent();
-            RolesComboBox.ItemsSource = roles;
-            FilialComboBox.ItemsSource = filials;
+            RolesComboBox.ItemsSource = Enum.GetValues(typeof(Roles));
+            FilialComboBox.ItemsSource = Enum.GetValues(typeof(Filials));
         }
 
 

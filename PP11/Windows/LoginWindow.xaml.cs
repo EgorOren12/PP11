@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using PP11.Data;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,9 +19,12 @@ namespace PP11
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private ContextDB db;
         public LoginWindow()
         {
             InitializeComponent();
+            db = new ContextDB();
+            db.Database.EnsureCreated();
         }
 
         private void EnterButton_Click(object sender, RoutedEventArgs e)
