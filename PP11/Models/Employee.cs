@@ -11,7 +11,7 @@ namespace PP11.Models
 
         public string FIO { get; set; }
 
-        public Post Post { get; set; }
+        public string Post { get; set; }
 
         public string Cvalification { get; set; }
 
@@ -21,7 +21,7 @@ namespace PP11.Models
 
         public MembersOfBrigade? MembersOfBrigade { get; set; }
 
-        public Employee(int id, string fIO, Post post, string cvalification, string timeOfWork)
+        public Employee(int id, string fIO, string post, string cvalification, string timeOfWork)
         {
             Id = id;
             FIO = fIO;

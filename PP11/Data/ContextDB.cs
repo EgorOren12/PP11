@@ -22,7 +22,7 @@ namespace PP11.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-PRB90QH\SQLEXPRESS;Database=PP;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-PRB90QH\SQLEXPRESS;Database=PPV3;Trusted_Connection=True;TrustServerCertificate=True;");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,6 +35,8 @@ namespace PP11.Data
             {
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+
         }
 
     }

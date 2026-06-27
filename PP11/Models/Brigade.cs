@@ -13,11 +13,11 @@ namespace PP11.Models
 
         public string Name { get; set; }
 
-        public Zones Zones { get; set; }
+        public string Zones { get; set; }
 
         public string Transport { get; set; }
 
-        public Filials Filials { get; set; }
+        public string Filials { get; set; }
 
         public int EmployeeID {  get; set; }
 
@@ -26,7 +26,7 @@ namespace PP11.Models
 
         public MembersOfBrigade? MembersOfBrigade { get; set; }
 
-        public Brigade(int id, string name, Zones zones, string transport, Filials filials, int employeeId) 
+        public Brigade(int id, string name, string zones, string transport, string filials, int employeeId) 
         {
             Id = id;
             Name = name;

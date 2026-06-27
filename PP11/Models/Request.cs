@@ -14,9 +14,9 @@ namespace PP11.Models
 
         public string DescriptionOfProblem { get; set; }
 
-        public SourceOfReguest SourceOfReguest { get; set; }
+        public string SourceOfReguest { get; set; }
 
-        public RequestStatus Status { get; set; }
+        public string Status { get; set; }
 
         public DateTime? DateOfStart { get; set; }
 
@@ -28,7 +28,7 @@ namespace PP11.Models
 
         public DateTime? DateOfClosing { get; set; }
 
-        public ResultOfAppoinment? ResultOfAppoinment { get; set; }
+        public string? ResultOfAppoinment { get; set; }
 
         public string? CommentOfClose { get; set; }
 
@@ -51,7 +51,7 @@ namespace PP11.Models
         public TypesOfSituation? TypesOfSituation { get; set; }
 
 
-        public Request(int id, DateTime dateOfEnter, string descriptionOfProblem, SourceOfReguest sourceOfReguest, RequestStatus status, DateTime? dateOfStart, DateTime? dateOfEnd, string? descriptionOfWork, string? usingMaterials, DateTime? dateOfClosing, ResultOfAppoinment? resultOfAppoinment, string? commentOfClose, bool? informingOfAbonent, int abonentId, int objectId, int typeId)
+        public Request(int id, DateTime dateOfEnter, string descriptionOfProblem, string sourceOfReguest, string status, DateTime? dateOfStart, DateTime? dateOfEnd, string? descriptionOfWork, string? usingMaterials, DateTime? dateOfClosing, string? resultOfAppoinment, string? commentOfClose, bool? informingOfAbonent, int abonentId, int objectId, int typeId)
         {
             Id = id;
             DateOfEnter = dateOfEnter;

@@ -14,22 +14,23 @@ namespace PP11.Models
 
         public string Login { get; set; }
 
+        
         public string Password { get; set; }
 
-        public Roles Role { get; set; }
+        public string Role { get; set; }
 
-        public Filials Filial { get; set; }
+        public string Filial { get; set; }
 
         public string Email { get; set; }
 
-        public DateTime LastEnter { get; set; } 
+        public DateTime? LastEnter { get; set; } 
 
-        public bool Activity {  get; set; }
+        public bool? Activity {  get; set; }
 
 
-        public User(int userId, string fIO, string login, string password, Roles role, Filials filial, string email, DateTime lastEnter, bool activity)
+        public User( string fIO, string login, string password, string role, string filial, string email, DateTime? lastEnter, bool? activity)
         {
-            Id = userId;
+
             FIO = fIO;
             Login = login;
             Password = password;

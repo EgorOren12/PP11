@@ -104,7 +104,7 @@
             Background="#E0E0E0" BorderBrush="Transparent" VerticalContentAlignment="Center"/>
 
         <Button Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="4" Margin="50,20,50,10"
-            Content="Войти" FontSize="16"
+            Content="Зарегистрироваться" FontSize="16"
             Background="#006CB5" Foreground="#E0E0E0" BorderBrush="Transparent"
             Click="RegistrButton_Click"
             MouseEnter="RegistrButton_MouseEnter"  Name="RegistrButton"

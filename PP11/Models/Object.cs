@@ -12,21 +12,21 @@ namespace PP11.Models
 
         public string Adress { get; set; }
 
-        public Zones Zones { get; set; }
+        public string Zones { get; set; }
 
-        public ObjectsType ObjectsType { get; set; }
+        public string ObjectsType { get; set; }
 
-        public OborudovanieType OborudovanieType { get; set; }
+        public string OborudovanieType { get; set; }
 
         public int YearExpluatation { get; set; }
 
-        public StatusOborudovaniya StatusOborudovaniya { get; set; }
+        public string StatusOborudovaniya { get; set; }
         public int AbonentID { get; set; }
 
         [ForeignKey(nameof(AbonentID))]
         public Abonent? Abonent { get; set; }
 
-        public Object(int id, string adress, Zones zones, ObjectsType objectsType, OborudovanieType oborudovanieType, int yearExpluatation, StatusOborudovaniya statusOborudovaniya, int abonentID)
+        public Object(int id, string adress, string zones, string objectsType, string oborudovanieType, int yearExpluatation, string statusOborudovaniya, int abonentID)
         {
             Id = id;
             Adress = adress;

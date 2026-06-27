@@ -14,7 +14,7 @@ namespace PP11.Models
 
         public string? Discription { get; set; }
 
-        public Danger Danger { get; set; }
+        public string Danger { get; set; }
 
         public string ABSTime {  get; set; }
 
@@ -29,7 +29,7 @@ namespace PP11.Models
         public Brigade? Brigade { get; set; }
 
 
-        public Appoinment(int id, string name, string? discription, Danger danger, string aBSTime, int requestId, int brigadeId)
+        public Appoinment(int id, string name, string? discription, string danger, string aBSTime, int requestId, int brigadeId)
         {
             Id = id;
             Name = name;

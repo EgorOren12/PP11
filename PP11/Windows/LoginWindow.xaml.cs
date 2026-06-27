@@ -29,7 +29,7 @@ namespace PP11
 
         private void EnterButton_Click(object sender, RoutedEventArgs e)
         {
-            ErrorLabel.Content = "Error";
+            Enter();
         }
 
         private void Reg_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -45,5 +45,29 @@ namespace PP11
         private void Button_MouseEnter(object sender, MouseEventArgs e) => ENterButton.Foreground = Brushes.Black;
 
         private void ENterButton_MouseLeave(object sender, MouseEventArgs e) => ENterButton.Foreground = Brushes.White;
+
+
+        private void Enter()
+        {
+            var EnterUser = db.Users.FirstOrDefault(x => x.Login == LoginTextBox.Text);
+
+            if (EnterUser == null)
+            {
+                ErrorLabel.Content = "Пользователь не существует";
+                return;
+            }
+
+            if (EnterUser.Password == PasswordPasswordBox.Password)
+            {
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.Show(); this.Close();
+            }
+            else
+            {
+                ErrorLabel.Content = "Неверный пароль";
+                return;
+            }
+        }
+
     }
 }

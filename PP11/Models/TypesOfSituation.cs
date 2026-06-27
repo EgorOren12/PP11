@@ -13,11 +13,11 @@ namespace PP11.Models
 
         public string? Description { get; set; }
 
-        public Danger Danger {  get; set; }
+        public string Danger {  get; set; }
 
         public TimeOnly ABSTime {  get; set; } 
 
-        public TypesOfSituation(int id, string name, string description, Danger danger, TimeOnly timeOnly)
+        public TypesOfSituation(int id, string name, string description, string danger, TimeOnly timeOnly)
         {
             ID = id;
             Name = name;
