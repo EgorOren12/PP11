@@ -5,8 +5,331 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PP11"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="670" Width="1020">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
 
+        <Label Content="Система аварийных заявок" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="20,10,20,10"
+               Background="#006CB5" Foreground="White" FontSize="40" FontFamily="Sitka Text" FontWeight="Bold"
+               />
+        <TabControl Grid.Row="1" Margin="10" SelectionChanged="TabControl_SelectionChanged" 
+                    Background="#E0E0E0" BorderBrush="Transparent">
+            <TabItem Header="Абоненты" Background="#006CB5" Foreground="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid Grid.Row="0" Grid.Column="0" 
+                              Background="White" Margin="5" Name="Abonent_DataGrid"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id Абонента" Width="75" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}"/>
+                            <DataGridTextColumn Header="Дата Рождения" Binding="{Binding Birthsday}"/>
+                            <DataGridTextColumn Header="Лицевой счет" Binding="{Binding LichesevoiSchet}"/>
+                            <DataGridTextColumn Header="Серия паспорта" Binding="{Binding PassportSer}"/>
+                            <DataGridTextColumn Header="Номер паспорта" Binding="{Binding PassportNum}"/>
+                            <DataGridTextColumn Header="Дополнительная информация" Binding="{Binding DopInformation}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="5" Height="30" Orientation="Horizontal"
+                                Background="#FFC7C7C7" Name="RefreshButton1" MouseLeftButtonDown="RefreshButton1_MouseLeftButtonDown">
+                        <Image Source="/Icons/refresh.png" Height="30"/>
+                        <Label Content="Обновить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                        
+                    <StackPanel Grid.Column="1" Grid.Row="0" 
+                                Background="White" Margin="5">
+                        <Label Content="Создание и операции над данными" HorizontalContentAlignment="Center" Margin="5,5,5,20"
+                               FontSize="17" FontWeight="Bold" Background="#006CB5" Foreground="White" />
+
+                        <Label Content="Id Абонента" VerticalAlignment="Bottom" Margin="5,-5,5, 0"
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold"/>
+                        <TextBox Name="IdAbonentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="ФИО" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="FIOAbonentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Дата Рождения" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <DatePicker Name="BirthsdayAbonentDatePicker" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="25" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Лицевой счет" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Textr" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="LichesevoiSchetAbonentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Серия паспорта" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="PassportSerAbonentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Номер паспорта" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="PassportNumAbonentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Дополнительная информация" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="DopInformationNumAbonentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="60" TextWrapping="Wrap" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FF3ABF00" Margin="5" 
+                                    Name="AddButtonAbonent"
+                                    MouseLeftButtonDown="AddButtonAbonent_MouseLeftButtonDown">
+                            <Image Source="/Icons/Add.png" Margin="3"/>
+                            <Label Content="Добавить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FF00D4D0" Margin="5" 
+                                    Name="UpdateButtonAbonent"
+                                    MouseLeftButtonDown="UpdateButtonAbonent_MouseLeftButtonDown">
+                            <Image Source="/Icons/Update.png" Margin="3"/>
+                            <Label Content="Изменить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FFC50000" Margin="5" 
+                                    Name="DeleteButtonAbonent"
+                                    MouseLeftButtonDown="DeleteButtonAbonent_MouseLeftButtonDown">
+                            <Image Source="/Icons/Del.png" Margin="3"/>
+                            <Label Content="Удалить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"
+/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                </Grid>
+                
+            </TabItem>
+            <TabItem Header="Сотрудники" Background="#006CB5" Foreground="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid Grid.Row="0" Grid.Column="0" 
+                              Background="White" Margin="5" Name="Employee_DataGrid"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id Сотрудника" Width="90" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}"/>
+                            <DataGridTextColumn Header="Пост" Width="90" Binding="{Binding Post}"/>
+                            <DataGridTextColumn Header="Квалификация" Binding="{Binding Cvalification}"/>
+                            <DataGridTextColumn Header="Время работы" Binding="{Binding TimeOfWork}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="5" Height="30" Orientation="Horizontal"
+                                Background="#FFC7C7C7" Name="RefreshButton2" MouseLeftButtonDown="RefreshButton1_MouseLeftButtonDown">
+                        <Image Source="/Icons/refresh.png" Height="30"/>
+                        <Label Content="Обновить" FontWeight="Bold" 
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Grid.Row="0" 
+                                Background="White" Margin="5">
+                        <Label Content="Создание и операции над данными" HorizontalContentAlignment="Center" Margin="5,5,5,20"
+                               FontSize="17" FontWeight="Bold" Background="#006CB5" Foreground="White" 
+                               FontFamily="Sitka Text"/>
+
+                        <Label Content="Id Сотрудника" VerticalAlignment="Bottom" Margin="5,-5,5, 0"
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold"/>
+                        <TextBox Name="IdEmployeeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="ФИО" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="FIOEmployeeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Пост" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="PostEmployeeComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="25" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Квалификация" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Textr" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="CvalificationEmployeeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Время работы" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="TimeOfWorkEmployeeComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FF3ABF00" Margin="5" 
+                                    Name="AddButtonEmployee"
+                                    MouseLeftButtonDown="AddButtonEmployee_MouseLeftButtonDown">
+                            <Image Source="/Icons/Add.png" Margin="3"/>
+                            <Label Content="Добавить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FF00D4D0" Margin="5" 
+                                    Name="UpdateButtonEmployee"
+                                    MouseLeftButtonDown="UpdateButtonEmployee_MouseLeftButtonDown">
+                            <Image Source="/Icons/Update.png" Margin="3"/>
+                            <Label Content="Изменить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FFC50000" Margin="5" 
+                                    Name="DeleteButtonEmployee"
+                                    MouseLeftButtonDown="DeleteButtonEmployee_MouseLeftButtonDown">
+                            <Image Source="/Icons/Del.png" Margin="3"/>
+                            <Label Content="Удалить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"
+/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+
+            </TabItem>
+            <TabItem Header="Объекты" Background="#006CB5" Foreground="White">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid Grid.Row="0" Grid.Column="0" 
+                              Background="White" Margin="5" Name="Object_DataGrid"
+                              AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id Объекта" Width="75" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Adress}"/>
+                            <DataGridTextColumn Header="Район" Binding="{Binding Zones}"/>
+                            <DataGridTextColumn Header="Тип объекта" Binding="{Binding ObjectsType}"/>
+                            <DataGridTextColumn Header="Тип оборудования" Binding="{Binding OborudovanieType}"/>
+                            <DataGridTextColumn Header="Год ввода в экспл." Binding="{Binding YearExpluatation}"/>
+                            <DataGridTextColumn Header="Статус оборудования" Binding="{Binding StatusOborudovaniya}"/>
+                            <DataGridTextColumn Header="ID Абонента" Binding="{Binding AbonentID}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="5" Height="30" Orientation="Horizontal"
+                                Background="#FFC7C7C7" Name="RefreshButton3" MouseLeftButtonDown="RefreshButton1_MouseLeftButtonDown">
+                        <Image Source="/Icons/refresh.png" Height="30"/>
+                        <Label Content="Обновить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+
+                    <ScrollViewer Grid.Column="1" Grid.Row="0" Margin="0">
+                        <StackPanel  
+                                Background="White" Margin="5">
+                        <Label Content="Создание и операции над данными" HorizontalContentAlignment="Center" Margin="5,5,5,20"
+                               FontSize="17" FontWeight="Bold" Background="#006CB5" Foreground="White" />
+
+                        <Label Content="Id Объекта" VerticalAlignment="Bottom" Margin="5,-5,5, 0"
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold"/>
+                        <TextBox Name="IdObjectTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Адрес" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="AdressObjectTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Район" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="ZonesObjectComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="25" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Тип объекта" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="ObjectsTypeObjectComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Тип оборудования" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="OborudovanieTypeObjectComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Год ввода в эксплуатацию" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="YearExpluatationObjectTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Статус оборудования" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="StatusOborudovaniyaObjectTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" />
+
+                        <Label Content="ID Абонента" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="AbonentIDObjectTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" />
+                    </StackPanel>
+                    </ScrollViewer>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FF3ABF00" Margin="5" 
+                                    Name="AddButtonObject"
+                                    MouseLeftButtonDown="AddButtonObject_MouseLeftButtonDown">
+                            <Image Source="/Icons/Add.png" Margin="3"/>
+                            <Label Content="Добавить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FF00D4D0" Margin="5" 
+                                    Name="UpdateButtonObject"
+                                    MouseLeftButtonDown="UpdateButtonObject_MouseLeftButtonDown">
+                            <Image Source="/Icons/Update.png" Margin="3"/>
+                            <Label Content="Изменить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FFC50000" Margin="5" 
+                                    Name="DeleteButtonObject"
+                                    MouseLeftButtonDown="DeleteButtonObject_MouseLeftButtonDown">
+                            <Image Source="/Icons/Del.png" Margin="3"/>
+                            <Label Content="Удалить" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"
+/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+
+            </TabItem>
+
+
+        </TabControl>
     </Grid>
 </Window>

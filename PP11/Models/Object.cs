@@ -21,7 +21,7 @@ namespace PP11.Models
         public int YearExpluatation { get; set; }
 
         public string StatusOborudovaniya { get; set; }
-        public int AbonentID { get; set; }
+        public int  AbonentID{ get; set; }
 
         [ForeignKey(nameof(AbonentID))]
         public Abonent? Abonent { get; set; }
