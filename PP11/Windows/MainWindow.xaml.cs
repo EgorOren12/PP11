@@ -30,13 +30,13 @@ namespace PP11
         {
             InitializeComponent();
             db = new ContextDB();
+            LoadDataGridsData();
             LoadData();
             
         }
 
         private void LoadData()
         {
-            LoadDataGridsData();
             PostEmployeeComboBox.ItemsSource = Enum.GetValues(typeof(Post));
             TimeOfWorkEmployeeComboBox.ItemsSource = WorkTime;
 
@@ -47,10 +47,16 @@ namespace PP11
         }
         private void LoadDataGridsData()
         {
-
-            Object_DataGrid.ItemsSource = db.Objects.ToList();
-            Employee_DataGrid.ItemsSource = db.Employees.ToList();
             Abonent_DataGrid.ItemsSource = db.Abonents.ToList();
+            Appoinment_DataGrid.ItemsSource = db.Appoinments.ToList();
+            Brigade_DataGrid.ItemsSource = db.Brigades.ToList();
+            Employee_DataGrid.ItemsSource = db.Employees.ToList();
+            MembersOfBrigade_DataGrid.ItemsSource = db.MembersOfBrigades.ToList();
+            Object_DataGrid.ItemsSource = db.Objects.ToList();
+            Reguest_DataGrid.ItemsSource = db.Requests.ToList();
+            ReguestClose_DataGrid.ItemsSource = db.Requests.ToList();
+            FullReguest_DataGrid.ItemsSource = db.Requests.ToList();
+            TypeOfSituation_DataGrid.ItemsSource = db.TypesOfSituation.ToList();
             User_DataGrid.ItemsSource = db.Users.ToList();
         }
 
@@ -227,7 +233,7 @@ namespace PP11
 
         }
         #endregion
-#region requestFull
+        #region requestFull
         private void DeleteButtonFullReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -238,7 +244,7 @@ namespace PP11
 
         }
         #endregion
-
+        #region Appoinment
         private void AddButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -253,5 +259,6 @@ namespace PP11
         {
 
         }
+        #endregion
     }
 }
