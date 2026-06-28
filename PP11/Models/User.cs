@@ -28,7 +28,7 @@ namespace PP11.Models
         public bool? Activity {  get; set; }
 
 
-        public User( string fIO, string login, string password, string role, string filial, string email, DateTime? lastEnter, bool? activity)
+        public User(string fIO, string login, string password, string role, string filial, string email, DateTime? lastEnter, bool? activity)
         {
 
             FIO = fIO;

@@ -29,10 +29,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Icons\Add.png" />
-    <Resource Include="Icons\Del.png" />
-    <Resource Include="Icons\refresh.png" />
-    <Resource Include="Icons\Update.png" />
+    <Resource Include="Icons\Add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Del.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\refresh.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\Update.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
