@@ -21,9 +21,8 @@ namespace PP11.Models
         [ForeignKey(nameof(BrigadeId))]
         public Brigade? Brigade { get; set; }
 
-        public MembersOfBrigade(int id, string roleInBrigade, int employeeId, int brigadeId) 
+        public MembersOfBrigade(string roleInBrigade, int employeeId, int brigadeId) 
         {
-            Id = id;
             RoleInBrigade = roleInBrigade;
             BrigadeId = brigadeId;
             EmployeeId = employeeId;

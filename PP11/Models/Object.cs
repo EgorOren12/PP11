@@ -26,9 +26,8 @@ namespace PP11.Models
         [ForeignKey(nameof(AbonentID))]
         public Abonent? Abonent { get; set; }
 
-        public Object(int id, string adress, string zones, string objectsType, string oborudovanieType, int yearExpluatation, string statusOborudovaniya, int abonentID)
+        public Object(string adress, string zones, string objectsType, string oborudovanieType, int yearExpluatation, string statusOborudovaniya, int abonentID)
         {
-            Id = id;
             Adress = adress;
             Zones = zones;
             ObjectsType = objectsType;

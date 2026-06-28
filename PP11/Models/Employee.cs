@@ -21,9 +21,8 @@ namespace PP11.Models
 
         public MembersOfBrigade? MembersOfBrigade { get; set; }
 
-        public Employee(int id, string fIO, string post, string cvalification, string timeOfWork)
+        public Employee(string fIO, string post, string cvalification, string timeOfWork)
         {
-            Id = id;
             FIO = fIO;
             Post = post;
             Cvalification = cvalification;

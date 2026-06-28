@@ -26,9 +26,8 @@ namespace PP11.Models
 
         public MembersOfBrigade? MembersOfBrigade { get; set; }
 
-        public Brigade(int id, string name, string zones, string transport, string filials, int employeeId) 
+        public Brigade(string name, string zones, string transport, string filials, int employeeId) 
         {
-            Id = id;
             Name = name;
             Zones = zones;
             Transport = transport;

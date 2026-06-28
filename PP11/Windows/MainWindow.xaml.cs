@@ -51,6 +51,7 @@ namespace PP11
             Object_DataGrid.ItemsSource = db.Objects.ToList();
             Employee_DataGrid.ItemsSource = db.Employees.ToList();
             Abonent_DataGrid.ItemsSource = db.Abonents.ToList();
+            User_DataGrid.ItemsSource = db.Users.ToList();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -93,7 +94,6 @@ namespace PP11
         }
 
         #endregion
-
         #region Employee
         private void AddButtonEmployee_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -110,7 +110,6 @@ namespace PP11
 
         }
         #endregion
-
         #region Object
         private void DeleteButtonObject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -127,7 +126,7 @@ namespace PP11
 
         }
         #endregion
-
+        #region Brigade
         private void DeleteButtonBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -139,6 +138,118 @@ namespace PP11
         }
 
         private void AddButtonBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+        #region MembersOfBrigade
+        private void AddButtonMembersOfBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void UpdateButtonMembersOfBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void DeleteButtonMembersOfBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+        #region users
+        private void DeleteButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void UpdateButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AddButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void DeletePasswordButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+        #region TypeOfSituation
+        private void DeleteButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void UpdateButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AddButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+        #region RequestCreate
+        private void AddButtonReguestCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void UpdateButtonReguestCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void DeleteButtonReguestCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+        #region RequestClose
+        private void DeleteButtonReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void UpdateButtonReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AddButtonReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+#region requestFull
+        private void DeleteButtonFullReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void DocButtonFullReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+        #endregion
+
+        private void AddButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void UpdateButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void DeleteButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
         }

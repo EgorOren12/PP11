@@ -11,6 +11,8 @@
   <ItemGroup>
     <None Remove="Icons\Add.png" />
     <None Remove="Icons\Del.png" />
+    <None Remove="Icons\free-icon-document-3936484.png" />
+    <None Remove="Icons\password.png" />
     <None Remove="Icons\Update.png" />
   </ItemGroup>
 
@@ -30,16 +32,18 @@
 
   <ItemGroup>
     <Resource Include="Icons\Add.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\Del.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Icons\free-icon-document-3936484.png" />
+    <Resource Include="Icons\password.png" />
     <Resource Include="Icons\refresh.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\Update.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 

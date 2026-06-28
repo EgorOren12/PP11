@@ -21,9 +21,8 @@ namespace PP11.Models
         public string? DopInformation { get; set; }
 
         
-        public Abonent(int id, string fIO, DateTime birthsday, string lichesevoiSchet, int passportSer, int passportNum, string? dopInformation)
+        public Abonent(string fIO, DateTime birthsday, string lichesevoiSchet, int passportSer, int passportNum, string? dopInformation)
         {
-            Id = id;
             FIO = fIO;
             Birthsday = birthsday;
             LichesevoiSchet = lichesevoiSchet;

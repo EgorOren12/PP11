@@ -51,9 +51,8 @@ namespace PP11.Models
         public TypesOfSituation? TypesOfSituation { get; set; }
 
 
-        public Request(int id, DateTime dateOfEnter, string descriptionOfProblem, string sourceOfReguest, string status, DateTime? dateOfStart, DateTime? dateOfEnd, string? descriptionOfWork, string? usingMaterials, DateTime? dateOfClosing, string? resultOfAppoinment, string? commentOfClose, bool? informingOfAbonent, int abonentId, int objectId, int typeId)
+        public Request(DateTime dateOfEnter, string descriptionOfProblem, string sourceOfReguest, string status, DateTime? dateOfStart, DateTime? dateOfEnd, string? descriptionOfWork, string? usingMaterials, DateTime? dateOfClosing, string? resultOfAppoinment, string? commentOfClose, bool? informingOfAbonent, int abonentId, int objectId, int typeId)
         {
-            Id = id;
             DateOfEnter = dateOfEnter;
             DescriptionOfProblem = descriptionOfProblem;
             SourceOfReguest = sourceOfReguest;

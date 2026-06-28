@@ -30,7 +30,6 @@ namespace PP11.Models
 
         public User(string fIO, string login, string password, string role, string filial, string email, DateTime? lastEnter, bool? activity)
         {
-
             FIO = fIO;
             Login = login;
             Password = password;
