@@ -50,6 +50,24 @@ namespace PP11
             ObjectsTypeObjectComboBox.ItemsSource = Enum.GetValues(typeof(ObjectsType));
             ZonesObjectComboBox.ItemsSource = Enum.GetValues(typeof(Zones));
             StatusOborudovaniyaObjectTextBox.ItemsSource = Enum.GetValues(typeof(StatusOborudovaniya));
+
+
+            ZonesBrigadeComboBox.ItemsSource = Enum.GetValues(typeof(Zones));
+            FilialBrigadeComboBox.ItemsSource = Enum.GetValues(typeof(Filials));
+
+            RoleInBrigadeMembersOfBrigadeComboBox.ItemsSource = Enum.GetValues(typeof(Post));
+
+            RoleUserComboBox.ItemsSource = Enum.GetValues( typeof(Roles));
+            FIlialUserComboBox.ItemsSource = Enum.GetValues(typeof(Filials));
+
+            DangerTypeOfSituationTextBox.ItemsSource = Enum.GetValues(typeof(Danger));
+
+            SourceOfReguestReguestTextBox.ItemsSource = Enum.GetValues(typeof(SourceOfReguest));
+            StatusReguestTextBox.ItemsSource = Enum.GetValues(typeof(RequestStatus));
+
+            ResultOfAppoinmentReguestCloseTextBox.ItemsSource = Enum.GetValues(typeof(ResultOfAppoinment));
+
+            StatusOfAppointmentAppoinmentTextBox.ItemsSource = Enum.GetValues(typeof(StatusOfAppoinment));
         }
         private void LoadDataGridsData()
         {
@@ -251,41 +269,33 @@ namespace PP11
 
             User user = (User)User_DataGrid.SelectedItem;
 
-            // 1. Показываем диалог сохранения файла
             var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Документ Word (*.docx)|*.docx"; 
             saveFileDialog.FileName = "МойДокумент.docx";
 
             if (saveFileDialog.ShowDialog() == true)
             {
-                // 2. Создаем новый документ
                 var doc = new WordDocument();
 
-                // 3. Создаем текст с форматированием
-                // В IronWord стиль применяется к объекту Run
                 var textRun = new IronWord.Models.Run(new TextContent($"Id Пользователя:{user.Id}"));
                 textRun.AddText($"Id Пользователя:{user.Id}\nФИО Пользователя: {user.FIO}");
 
-                // Настраиваем стиль шрифта
                 textRun.Style = new TextStyle()
                 {
-                    FontSize = 14, // Размер шрифта в пунктах [citation:6]
-                    IsBold = false, // Жирный шрифт [citation:6]
-                    Color = System.Drawing.Color.Black, // Цвет текста [citation:6]
+                    FontSize = 14, 
+                    IsBold = false, 
+                    Color = System.Drawing.Color.Black,
                     TextFont = new Font()
                     {
-                        FontFamily = "Times New Roman" // Название шрифта [citation:6]
+                        FontFamily = "Times New Roman" 
                     }
                 };
 
-                // 4. Создаем абзац и добавляем в него наш текст
                 var paragraph = new Paragraph();
                 paragraph.AddChild(textRun);
 
-                // 5. Добавляем абзац в документ
                 doc.AddParagraph(paragraph);
 
-                // 6. Сохраняем документ по пути, который выбрал пользователь
                 doc.SaveAs(saveFileDialog.FileName);
 
                 MessageBox.Show("Документ Word успешно создан!", "Успех");

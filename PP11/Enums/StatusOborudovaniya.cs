@@ -7,7 +7,7 @@ namespace PP11.Enums
     public enum StatusOborudovaniya
     {
         Исправно = 1,
-        ТребуетсяРемонт = 2,
+        Требуется_Ремонт = 2,
         Аварийное = 3
     }
 }

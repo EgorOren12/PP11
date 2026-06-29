@@ -7,7 +7,7 @@ namespace PP11.Enums
     public enum StatusOfAppoinment
     {
         Назначено = 1,
-        ВПути = 2,
+        В_Пути = 2,
         Прибыли = 3,
         Выполняется = 4
     }
