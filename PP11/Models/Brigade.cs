@@ -21,6 +21,7 @@ namespace PP11.Models
 
         public string Filials { get; set; }
 
+
         public int EmployeeID {  get; set; }
 
         [ForeignKey(nameof(EmployeeID))]
@@ -28,13 +29,14 @@ namespace PP11.Models
 
         public MembersOfBrigade? MembersOfBrigade { get; set; }
 
-        public Brigade(string name, string zones, string transport, string filials, int employeeId) 
+        public Brigade(string name, string zones, string transport, string filials, int employeeId, bool isBusy) 
         {
             Name = name;
             Zones = zones;
             Transport = transport;
             Filials = filials;
             EmployeeID = employeeId;
+            IsBusy = isBusy;
         }
         public Brigade() { }
     }

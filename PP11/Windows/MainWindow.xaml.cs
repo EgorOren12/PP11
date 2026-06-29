@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -116,23 +117,83 @@ namespace PP11
         #region Abonent
         private void DeleteButtonAbonent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Abonent_DataGrid.SelectedItem is not Abonent selected)
+            {
+                MessageBox.Show("Выберите абонента для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить абонента '{selected.FIO}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.Abonents.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearAbonent();
+                    MessageBox.Show("Абонент удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
-
         private void UpdateButtonAbonent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Abonent_DataGrid.SelectedItem is not Abonent selected)
+            {
+                MessageBox.Show("Выберите абонента для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            string error = "";
+            if (FIOAbonentTextBox.Text == "") error += "Заполните ФИО\n";
+            if (BirthsdayAbonentDatePicker.Text == "") error += "Выберите дату рождения\n";
+            if (LichesevoiSchetAbonentTextBox.Text == "") error += "Заполните лицевой счет\n";
+            if (PassportSerAbonentTextBox.Text == "") error += "Заполните серию паспорта\n";
+            if (PassportNumAbonentTextBox.Text == "") error += "Заполните номер паспорта\n";
+            if (PassportSerAbonentTextBox.Text.Length != 4) error += "Серия паспорта должна содержать 4 цифры\n";
+            if (PassportNumAbonentTextBox.Text.Length != 6) error += "Номер паспорта должн содержать 6 цифр\n";
+
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.FIO = FIOAbonentTextBox.Text;
+                selected.Birthsday = Convert.ToDateTime(BirthsdayAbonentDatePicker.Text);
+                selected.LichesevoiSchet = Convert.ToInt32(LichesevoiSchetAbonentTextBox.Text);
+                selected.PassportSer = Convert.ToInt32(PassportSerAbonentTextBox.Text);
+                selected.PassportNum = Convert.ToInt32(PassportNumAbonentTextBox.Text);
+                selected.DopInformation = DopInformationNumAbonentTextBox.Text;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearAbonent();
+
+                MessageBox.Show("Абонент Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+
 
         }
 
         private void AddButtonAbonent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             string error = "";
-            if (FIOAbonentTextBox.Text == "") error += "Заполните ФИО";
-            if (BirthsdayAbonentDatePicker.Text == "") error += "Выберите дату рождения";
-            if (LichesevoiSchetAbonentTextBox.Text == "") error += "Заполните лицевой счет";
-            if (PassportSerAbonentTextBox.Text == "") error += "Заполните серию паспорта";
-            if (PassportNumAbonentTextBox.Text == "") error += "Заполните номер паспорта";
-            if (PassportNumAbonentTextBox.Text == "") error += "Заполните номер паспорта";
+            if (FIOAbonentTextBox.Text == "") error += "Заполните ФИО\n";
+            if (BirthsdayAbonentDatePicker.Text == "") error += "Выберите дату рождения\n";
+            if (LichesevoiSchetAbonentTextBox.Text == "") error += "Заполните лицевой счет\n";
+            if (PassportSerAbonentTextBox.Text == "") error += "Заполните серию паспорта\n";
+            if (PassportNumAbonentTextBox.Text == "") error += "Заполните номер паспорта\n";
+            if (PassportSerAbonentTextBox.Text.Length != 4) error += "Серия паспорта должна содержать 4 цифры\n";
+            if (PassportNumAbonentTextBox.Text.Length != 6) error += "Номер паспорта должн содержать 6 цифр\n";
             if (error != "")
             {
                 MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -144,6 +205,7 @@ namespace PP11
                 db.Abonents.Add(abonent);
                 db.SaveChanges();
                 LoadAllData();
+                ClearAbonent();
                 MessageBox.Show("Абонент успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
@@ -156,49 +218,288 @@ namespace PP11
         #region Employee
         private void AddButtonEmployee_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            string error = "";
+            if (FIOEmployeeTextBox.Text == "") error += "Заполните ФИО\n";
+            if (PostEmployeeComboBox.Text == "") error += "Выберите пост\n";
+            if (CvalificationEmployeeTextBox.Text == "") error += "Заполните квалификацию\n";
+            if (TimeOfWorkEmployeeComboBox.Text == "") error += "Выберите время работы\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var employee = new Employee(FIOEmployeeTextBox.Text, PostEmployeeComboBox.Text, CvalificationEmployeeTextBox.Text, TimeOfWorkEmployeeComboBox.Text);
+                db.Employees.Add(employee);
+                db.SaveChanges();
+                LoadAllData();
+                ClearEmployee();
+                MessageBox.Show("Сотрудник успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void UpdateButtonEmployee_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Employee_DataGrid.SelectedItem is not Employee selected)
+            {
+                MessageBox.Show("Выберите абонента для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (FIOEmployeeTextBox.Text == "") error += "Заполните ФИО\n";
+            if (PostEmployeeComboBox.Text == "") error += "Выберите пост\n";
+            if (CvalificationEmployeeTextBox.Text == "") error += "Заполните квалификацию\n";
+            if (TimeOfWorkEmployeeComboBox.Text == "") error += "Выберите время работы\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.FIO = FIOEmployeeTextBox.Text;
+                selected.Post = PostEmployeeComboBox.Text;
+                selected.Cvalification = CvalificationEmployeeTextBox.Text;
+                selected.TimeOfWork = TimeOfWorkEmployeeComboBox.Text;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearEmployee();
+
+                MessageBox.Show("Сотрудник Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void DeleteButtonEmployee_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Employee_DataGrid.SelectedItem is not Employee selected)
+            {
+                MessageBox.Show("Выберите сотрудника для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить сотрудника '{selected.FIO}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.Employees.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearEmployee();
+                    MessageBox.Show("Сотрудник удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
         #endregion
         #region Object
         private void DeleteButtonObject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Object_DataGrid.SelectedItem is not Models.Object selected)
+            {
+                MessageBox.Show("Выберите объект для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить объект '{selected.Id}, {selected.Adress}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.Objects.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearObject();
+                    MessageBox.Show("Объект удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
 
         private void UpdateButtonObject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Object_DataGrid.SelectedItem is not Models.Object selected)
+            {
+                MessageBox.Show("Выберите объект для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+                string error = "";
+            if (AdressObjectTextBox.Text == "") error += "Заполните Адрес\n";
+            if (ZonesObjectComboBox.Text == "") error += "Выберите район\n";
+            if (ObjectsTypeObjectComboBox.Text == "") error += "Выберите тип оборудования\n";
+            if (OborudovanieTypeObjectComboBox.Text == "") error += "Выберите тип объекта\n";
+            if (YearExpluatationObjectTextBox.Text == "") error += "Заполните год ввода в эксплуатацию\n";
+            if (YearExpluatationObjectTextBox.Text.Length != 4) error += "Год содержит 4 цифры\n";
+            if (StatusOborudovaniyaObjectTextBox.Text == "") error += "Выберите статус оборудования\n";
+            if (AbonentIDObjectTextBox.Text == "") error += "Заполните ID Абонента\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.Adress = AdressObjectTextBox.Text;
+                selected.Zones = ZonesObjectComboBox.Text;
+                selected.ObjectsType = ObjectsTypeObjectComboBox.Text;
+                selected.OborudovanieType = OborudovanieTypeObjectComboBox.Text;
+                selected.YearExpluatation = Convert.ToInt32(YearExpluatationObjectTextBox.Text);
+                selected.StatusOborudovaniya = StatusOborudovaniyaObjectTextBox.Text;
+                selected.AbonentID = Convert.ToInt32(AbonentIDObjectTextBox.Text);
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearObject();
+
+                MessageBox.Show("Объект Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonObject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            string error = "";
+            if (AdressObjectTextBox.Text == "") error += "Заполните Адрес\n";
+            if (ZonesObjectComboBox.Text == "") error += "Выберите район\n";
+            if (ObjectsTypeObjectComboBox.Text == "") error += "Выберите тип оборудования\n";
+            if (OborudovanieTypeObjectComboBox.Text == "") error += "Выберите тип объекта\n";
+            if (YearExpluatationObjectTextBox.Text == "") error += "Заполните год ввода в эксплуатацию\n";
+            if (YearExpluatationObjectTextBox.Text.Length != 4) error += "Год содержит 4 цифры\n";
+            if (StatusOborudovaniyaObjectTextBox.Text == "") error += "Выберите статус оборудования\n";
+            if (AbonentIDObjectTextBox.Text == "") error += "Заполните ID Абонента\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var objectt = new Models.Object(AdressObjectTextBox.Text, ZonesObjectComboBox.Text, ObjectsTypeObjectComboBox.Text, OborudovanieTypeObjectComboBox.Text,
+                    Convert.ToInt32(YearExpluatationObjectTextBox.Text), StatusOborudovaniyaObjectTextBox.Text, Convert.ToInt32(AbonentIDObjectTextBox.Text));
+                db.Objects.Add(objectt);
+                db.SaveChanges();
+                LoadAllData();
+                ClearObject();
+                MessageBox.Show("Объект успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
         #region Brigade
         private void DeleteButtonBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Brigade_DataGrid.SelectedItem is not Brigade selected)
+            {
+                MessageBox.Show("Выберите бригаду для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить бригаду '{selected.Name}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.Brigades.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearBrigade();
+                    MessageBox.Show("Бригада удалена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
 
         private void UpdateButtonBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Brigade_DataGrid.SelectedItem is not Brigade selected)
+            {
+                MessageBox.Show("Выберите бригаду для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (NameBrigadeTextBox.Text == "") error += "Заполните наименование\n";
+            if (ZonesBrigadeComboBox.Text == "") error += "Выберите район\n";
+            if (TransportBrigadeTextBox.Text == "") error += "Заполните транспорт\n";
+            if (FilialBrigadeComboBox.Text == "") error += "Выберите филиал\n";
+            if (EmployeeIDBrigadeTextBox.Text == "") error += "Заполните Id старшего в бригаде\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.Name = NameBrigadeTextBox.Text;
+                selected.Zones = ZonesBrigadeComboBox.Text;
+                selected.Transport = TransportBrigadeTextBox.Text;
+                selected.Filials = FilialBrigadeComboBox.Text;
+                selected.EmployeeID = Convert.ToInt32(EmployeeIDBrigadeTextBox.Text);
+                selected.IsBusy = IsBusyBrigadeCheckBox.IsChecked.Value;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearBrigade();
+
+                MessageBox.Show("Бригада Изменена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            string error = "";
+            if (NameBrigadeTextBox.Text == "") error += "Заполните наименование\n";
+            if (ZonesBrigadeComboBox.Text == "") error += "Выберите район\n";
+            if (TransportBrigadeTextBox.Text == "") error += "Заполните транспорт\n";
+            if (FilialBrigadeComboBox.Text == "") error += "Выберите филиал\n";
+            if (EmployeeIDBrigadeTextBox.Text == "") error += "Заполните Id старшего в бригаде\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var brigade = new Brigade(NameBrigadeTextBox.Text, ZonesBrigadeComboBox.Text, TransportBrigadeTextBox.Text, FilialBrigadeComboBox.Text, Convert.ToInt32(EmployeeIDBrigadeTextBox.Text),IsBusyBrigadeCheckBox.IsChecked.Value);
+                db.Brigades.Add(brigade);
+                db.SaveChanges();
+                LoadAllData();
+                ClearBrigade();
+                MessageBox.Show("Объект успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
 
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
         #region MembersOfBrigade
@@ -351,6 +652,45 @@ namespace PP11
 
         }
         #endregion
+        #region Clear
+        private void ClearAbonent()
+        {
+            FIOAbonentTextBox.Text = null;
+            BirthsdayAbonentDatePicker.SelectedDate = null;
+            LichesevoiSchetAbonentTextBox.Text = null;
+            PassportSerAbonentTextBox.Text = null;
+            PassportNumAbonentTextBox.Text = null;
+            DopInformationNumAbonentTextBox.Text = null;
+        }
+
+        private void ClearEmployee()
+        {
+            FIOEmployeeTextBox.Text = null;
+            PostEmployeeComboBox.SelectedItem = null;
+            CvalificationEmployeeTextBox.Text = null;
+            TimeOfWorkEmployeeComboBox.SelectedItem = null;
+        }
+        private void ClearObject()
+        {
+            AdressObjectTextBox.Text = null;
+            ZonesObjectComboBox.SelectedItem = null;
+            ObjectsTypeObjectComboBox.SelectedItem = null;
+            OborudovanieTypeObjectComboBox.SelectedItem = null;
+            YearExpluatationObjectTextBox.Text = null;
+            StatusOborudovaniyaObjectTextBox.SelectedItem = null;
+            AbonentIDObjectTextBox.Text = null;
+        }
+
+        private void ClearBrigade()
+        {
+            NameBrigadeTextBox.Text = null;
+            ZonesBrigadeComboBox.SelectedItem = null;
+            TransportBrigadeTextBox.Text = null;
+            FilialBrigadeComboBox.SelectedItem = null;
+            EmployeeIDBrigadeTextBox.Text = null;
+            IsBusyBrigadeCheckBox.IsChecked = false;
+        }
+        #endregion
 
         #region SelectidChanged
         private void Abonent_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -426,7 +766,7 @@ namespace PP11
                 RoleUserComboBox.SelectedItem = selected.Role;
                 FIlialUserComboBox.SelectedItem = selected.Filial;
                 EmailUserTextBox.Text = selected.Email;
-                // LastEnter не редактируется
+
                 ActivityUserCheckBox.IsChecked = selected.Activity;
             }
         }
@@ -484,7 +824,7 @@ namespace PP11
             }
         }
         #endregion
-
+        #region oformint
         private void ToDocumentButtonOformit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -500,7 +840,38 @@ namespace PP11
 
         }
 
-        private void FIOOformitTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void FIOOformitTextBox_TextChanged(object sender, RoutedEventHandler e)
+        {
+            
+        }
+
+        private void AdresOformitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedAdress = AdresOformitComboBox.SelectedItem as string;
+
+            if (string.IsNullOrEmpty(selectedAdress))
+            {
+                ZoneOformietTextBox.Text = "";
+                return;
+            }
+
+            // Ищем объект по адресу
+            var selectedObject = currentAbonentObjects
+                .FirstOrDefault(o => o.Adress == selectedAdress);
+
+            if (selectedObject != null)
+            {
+                // Подставляем район
+                ZoneOformietTextBox.Text = selectedObject.Zones.ToString();
+            }
+            else
+            {
+                ZoneOformietTextBox.Text = "";
+            }
+        }
+        #endregion
+
+        private void FIOOformitTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
             string fio = FIOOformitTextBox.Text.Trim();
 
@@ -566,31 +937,5 @@ namespace PP11
                 ZoneOformietTextBox.Text = "";
             }
         }
-
-        private void AdresOformitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string selectedAdress = AdresOformitComboBox.SelectedItem as string;
-
-            if (string.IsNullOrEmpty(selectedAdress))
-            {
-                ZoneOformietTextBox.Text = "";
-                return;
-            }
-
-            // Ищем объект по адресу
-            var selectedObject = currentAbonentObjects
-                .FirstOrDefault(o => o.Adress == selectedAdress);
-
-            if (selectedObject != null)
-            {
-                // Подставляем район
-                ZoneOformietTextBox.Text = selectedObject.Zones.ToString();
-            }
-            else
-            {
-                ZoneOformietTextBox.Text = "";
-            }
-        }
-
     }
 }

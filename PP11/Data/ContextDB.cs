@@ -16,14 +16,14 @@ namespace PP11.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<MembersOfBrigade> MembersOfBrigades { get; set; }
-        public DbSet<Models.Object> Objects { get; set; }
+        public DbSet<Models.Object> Objects { get; set; } 
         public DbSet<Request> Requests { get; set; }
         public DbSet<TypesOfSituation> TypesOfSituation { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server=KOMPUKTER\SQLEXPRESS;Database=PPV6;Trusted_Connection=True;TrustServerCertificate=True;");
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-PRB90QH\SQLEXPRESS;Database=PPV4;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(@"Server=KOMPUKTER\SQLEXPRESS;Database=PPV6;Trusted_Connection=True;TrustServerCertificate=True;");
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-PRB90QH\SQLEXPRESS;Database=PPV4;Trusted_Connection=True;TrustServerCertificate=True;");
             
         }
 

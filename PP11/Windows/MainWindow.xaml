@@ -1101,12 +1101,13 @@
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
                         <TextBox Name="FIOOformitTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"
-                                 TextChanged="FIOOformitTextBox_TextChanged"/>
+                                 SelectionChanged="FIOOformitTextBox_SelectionChanged"/>
 
                         <Label Content="Адрес объекта" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
                         <ComboBox Name="AdresOformitComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
-                                 Background="#E0E0E0" MinHeight="25" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                 Background="#E0E0E0" MinHeight="25" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                                 SelectionChanged="AdresOformitComboBox_SelectionChanged"/>
 
                         <Label Content="Район" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Textr" FontWeight="Bold" Margin="5,-5,5,0"/>
