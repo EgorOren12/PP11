@@ -31,7 +31,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="Abonent_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="Abonent_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Абонента" Width="75" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}"/>
@@ -130,7 +131,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="Employee_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="Employee_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Сотрудника" Width="90" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}"/>
@@ -220,7 +222,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="Object_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="Object_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Объекта" Width="75" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Адрес" Binding="{Binding Adress}"/>
@@ -326,7 +329,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="Brigade_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="Brigade_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Бригады" Width="75" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
@@ -427,7 +431,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="MembersOfBrigade_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="MembersOfBrigade_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Члена бригады" Width="75" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Роль в бригаде" Binding="{Binding Name}"/>
@@ -512,7 +517,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="User_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="User_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Пользователя"  Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="ФИО" Binding="{Binding FIO}"/>
@@ -628,7 +634,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="TypeOfSituation_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="TypeOfSituation_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Ситуации" Width="75" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
@@ -722,7 +729,8 @@
 
                             <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="Reguest_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                                      SelectionChanged="Reguest_DataGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id Заявки" Width="75" Binding="{Binding Id}"/>
                                     <DataGridTextColumn Header="Дата поступления" Binding="{Binding DateOfEnter}"/>
@@ -827,7 +835,8 @@
 
                             <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="ReguestClose_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                                      SelectionChanged="ReguestClose_DataGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id Заявки" Width="75" Binding="{Binding Id}"/>
                                     <DataGridTextColumn Header="Дата начала устранения" Width="75" Binding="{Binding DateOfStart}"/>
@@ -993,7 +1002,8 @@
 
                     <DataGrid Grid.Row="0" Grid.Column="0" 
                               Background="White" Margin="5" Name="Appoinment_DataGrid"
-                              AutoGenerateColumns="False">
+                              AutoGenerateColumns="False"
+                              SelectionChanged="Appoinment_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Назначения" Width="75" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>

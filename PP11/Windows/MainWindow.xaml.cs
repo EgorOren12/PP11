@@ -36,9 +36,13 @@ namespace PP11
         {
             InitializeComponent();
             db = new ContextDB();
+            LoadAllData();
+            
+        }
+        private void LoadAllData()
+        {
             LoadDataGridsData();
             LoadData();
-            
         }
 
         private void LoadData()
@@ -120,7 +124,30 @@ namespace PP11
 
         private void AddButtonAbonent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            string error = "";
+            if (FIOAbonentTextBox.Text == "") error += "Заполните ФИО";
+            if (BirthsdayAbonentDatePicker.Text == "") error += "Выберите дату рождения";
+            if (LichesevoiSchetAbonentTextBox.Text == "") error += "Заполните лицевой счет";
+            if (PassportSerAbonentTextBox.Text == "") error += "Заполните серию паспорта";
+            if (PassportNumAbonentTextBox.Text == "") error += "Заполните номер паспорта";
+            if (PassportNumAbonentTextBox.Text == "") error += "Заполните номер паспорта";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var abonent = new Abonent(FIOAbonentTextBox.Text, DateTime.Parse(BirthsdayAbonentDatePicker.Text), int.Parse(LichesevoiSchetAbonentTextBox.Text), int.Parse(PassportSerAbonentTextBox.Text), int.Parse(PassportNumAbonentTextBox.Text), DopInformationNumAbonentTextBox.Text);
+                db.Abonents.Add(abonent);
+                db.SaveChanges();
+                LoadAllData();
+                MessageBox.Show("Абонент успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка, проверьте корректность своих данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         #endregion
@@ -320,6 +347,139 @@ namespace PP11
         private void DeleteButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
+        }
+        #endregion
+
+        #region SelectidChanged
+        private void Abonent_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Abonent_DataGrid.SelectedItem is Abonent selected)
+            {
+                FIOAbonentTextBox.Text = selected.FIO;
+                BirthsdayAbonentDatePicker.SelectedDate = selected.Birthsday;
+                LichesevoiSchetAbonentTextBox.Text = selected.LichesevoiSchet.ToString();
+                PassportSerAbonentTextBox.Text = selected.PassportSer.ToString();
+                PassportNumAbonentTextBox.Text = selected.PassportNum.ToString();
+                DopInformationNumAbonentTextBox.Text = selected.DopInformation;
+            }
+        }
+
+
+        private void Employee_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Employee_DataGrid.SelectedItem is Employee selected)
+            {
+                FIOEmployeeTextBox.Text = selected.FIO;
+                PostEmployeeComboBox.SelectedItem = selected.Post;
+                CvalificationEmployeeTextBox.Text = selected.Cvalification;
+                TimeOfWorkEmployeeComboBox.SelectedItem = selected.TimeOfWork;
+            }
+        }
+
+
+        private void Object_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Object_DataGrid.SelectedItem is Models.Object selected)
+            {
+                AdressObjectTextBox.Text = selected.Adress;
+                ZonesObjectComboBox.SelectedItem = selected.Zones;
+                ObjectsTypeObjectComboBox.SelectedItem = selected.ObjectsType;
+                OborudovanieTypeObjectComboBox.SelectedItem = selected.OborudovanieType;
+                YearExpluatationObjectTextBox.Text = selected.YearExpluatation.ToString();
+                StatusOborudovaniyaObjectTextBox.SelectedItem = selected.StatusOborudovaniya;
+                AbonentIDObjectTextBox.Text = selected.AbonentID.ToString();
+            }
+        }
+
+        private void Brigade_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Brigade_DataGrid.SelectedItem is Brigade selected)
+            {
+                NameBrigadeTextBox.Text = selected.Name;
+                ZonesBrigadeComboBox.SelectedItem = selected.Zones;
+                TransportBrigadeTextBox.Text = selected.Transport;
+                FilialBrigadeComboBox.SelectedItem = selected.Filials;
+                EmployeeIDBrigadeTextBox.Text = selected.EmployeeID.ToString();
+                IsBusyBrigadeCheckBox.IsChecked = selected.IsBusy;
+            }
+        }
+
+        private void MembersOfBrigade_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (MembersOfBrigade_DataGrid.SelectedItem is MembersOfBrigade selected)
+            {
+                RoleInBrigadeMembersOfBrigadeComboBox.SelectedItem = selected.RoleInBrigade;
+                BrigadeIdMembersOfBrigadeTextBox.Text = selected.BrigadeId.ToString();
+                EmployeeIdMembersOfBrigadeTextBox.Text = selected.EmployeeId.ToString();
+            }
+        }
+
+        private void User_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (User_DataGrid.SelectedItem is User selected)
+            {
+                FIOUserTextBox.Text = selected.FIO;
+                LoginUserTextBox.Text = selected.Login;
+                PasswordUserTextBox.Text = selected.Password;
+                RoleUserComboBox.SelectedItem = selected.Role;
+                FIlialUserComboBox.SelectedItem = selected.Filial;
+                EmailUserTextBox.Text = selected.Email;
+                // LastEnter не редактируется
+                ActivityUserCheckBox.IsChecked = selected.Activity;
+            }
+        }
+
+
+        private void TypeOfSituation_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (TypeOfSituation_DataGrid.SelectedItem is TypesOfSituation selected)
+            {
+                NameTypeOfSituationTextBox.Text = selected.Name;
+                DescriptionTypeOfSituationTextBox.Text = selected.Description;
+                DangerTypeOfSituationTextBox.SelectedItem = selected.Danger;
+                ABSTimeTypeOfSituationTextBox.Text = selected.ABSTime.ToString();
+            }
+        }
+
+        private void Reguest_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Reguest_DataGrid.SelectedItem is Request selected)
+            {
+                DateOfEnterReguestTextBox.SelectedDate = selected.DateOfEnter;
+                DescriptionOfProblemReguestTextBox.Text = selected.DescriptionOfProblem;
+                SourceOfReguestReguestTextBox.SelectedItem = selected.SourceOfReguest;
+                StatusReguestTextBox.SelectedItem = selected.Status;
+                AbonentIdReguestTextBox.Text = selected.AbonentId.ToString();
+                ObjectIdReguestTextBox.Text = selected.ObjectId.ToString();
+                TypeIdReguestTextBox.Text = selected.TypeId.ToString();
+            }
+        }
+
+        private void ReguestClose_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ReguestClose_DataGrid.SelectedItem is Request selected)
+            {
+                DateOfStartReguestCloseTextBox.SelectedDate = selected.DateOfStart;
+                DateOfEndReguestCloseTextBox.SelectedDate = selected.DateOfEnd;
+                DescriptionOfWorkReguestCloseTextBox.Text = selected.DescriptionOfWork;
+                UsingMaterialsReguestCloseTextBox.Text = selected.UsingMaterials;
+                DateOfClosingReguestCloseTextBox.SelectedDate = selected.DateOfClosing;
+                ResultOfAppoinmentReguestCloseTextBox.SelectedItem = selected.ResultOfAppoinment;
+                CommentOfCloseReguestCloseTextBox.Text = selected.CommentOfClose;
+                InformingOfAbonentReguestCloseTextBox.IsChecked = selected.InformingOfAbonent;
+            }
+        }
+
+        private void Appoinment_DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Appoinment_DataGrid.SelectedItem is Appoinment selected)
+            {
+                NameAppoinmentTextBox.Text = selected.Name;
+                DiscriptionAppoinmentComboBox.Text = selected.Discription;
+                StatusOfAppointmentAppoinmentTextBox.SelectedItem = selected.StatusOfAppointment;
+                RequestIdAppoinmentComboBox.Text = selected.RequestId.ToString();
+                BrigadeIdAppoinmentTextBox.Text = selected.BrigadeId.ToString();
+            }
         }
         #endregion
     }

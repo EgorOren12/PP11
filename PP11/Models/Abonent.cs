@@ -12,7 +12,7 @@ namespace PP11.Models
 
         public DateTime Birthsday { get; set; }
 
-        public string LichesevoiSchet { get; set; }
+        public int LichesevoiSchet { get; set; }
 
         public int PassportSer {  get; set; }
 
@@ -21,7 +21,7 @@ namespace PP11.Models
         public string? DopInformation { get; set; }
 
         
-        public Abonent(string fIO, DateTime birthsday, string lichesevoiSchet, int passportSer, int passportNum, string? dopInformation)
+        public Abonent(string fIO, DateTime birthsday, int lichesevoiSchet, int passportSer, int passportNum, string? dopInformation)
         {
             FIO = fIO;
             Birthsday = birthsday;

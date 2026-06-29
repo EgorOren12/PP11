@@ -22,7 +22,7 @@ namespace PP11.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=KOMPUKTER\SQLEXPRESS;Database=PPV5;Trusted_Connection=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer(@"Server=KOMPUKTER\SQLEXPRESS;Database=PPV6;Trusted_Connection=True;TrustServerCertificate=True;");
             //optionsBuilder.UseSqlServer(@"Server=DESKTOP-PRB90QH\SQLEXPRESS;Database=PPV3;Trusted_Connection=True;TrustServerCertificate=True;");
             
         }
