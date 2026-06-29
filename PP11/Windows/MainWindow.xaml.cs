@@ -1,5 +1,10 @@
-﻿using PP11.Data;
+﻿using IronWord;
+using IronWord.Models;
+using Microsoft.Win32;
+using PP11.Data;
 using PP11.Enums;
+using PP11.Models;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Paragraph = IronWord.Models.Paragraph;
 
 namespace PP11
 {
@@ -242,6 +248,52 @@ namespace PP11
         private void DocButtonFullReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
+
+            User user = (User)User_DataGrid.SelectedItem;
+
+            // 1. Показываем диалог сохранения файла
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Документ Word (*.docx)|*.docx"; 
+            saveFileDialog.FileName = "МойДокумент.docx";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                // 2. Создаем новый документ
+                var doc = new WordDocument();
+
+                // 3. Создаем текст с форматированием
+                // В IronWord стиль применяется к объекту Run
+                var textRun = new IronWord.Models.Run(new TextContent($"Id Пользователя:{user.Id}"));
+                textRun.AddText($"Id Пользователя:{user.Id}\nФИО Пользователя: {user.FIO}");
+
+                // Настраиваем стиль шрифта
+                textRun.Style = new TextStyle()
+                {
+                    FontSize = 14, // Размер шрифта в пунктах [citation:6]
+                    IsBold = false, // Жирный шрифт [citation:6]
+                    Color = System.Drawing.Color.Black, // Цвет текста [citation:6]
+                    TextFont = new Font()
+                    {
+                        FontFamily = "Times New Roman" // Название шрифта [citation:6]
+                    }
+                };
+
+                // 4. Создаем абзац и добавляем в него наш текст
+                var paragraph = new Paragraph();
+                paragraph.AddChild(textRun);
+
+                // 5. Добавляем абзац в документ
+                doc.AddParagraph(paragraph);
+
+                // 6. Сохраняем документ по пути, который выбрал пользователь
+                doc.SaveAs(saveFileDialog.FileName);
+
+                MessageBox.Show("Документ Word успешно создан!", "Успех");
+            }
+
+
+
+            
         }
         #endregion
         #region Appoinment

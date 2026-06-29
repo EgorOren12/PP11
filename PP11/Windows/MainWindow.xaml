@@ -334,6 +334,7 @@
                             <DataGridTextColumn Header="Транспорт" Binding="{Binding Transport}"/>
                             <DataGridTextColumn Header="Филиал" Binding="{Binding Filials}"/>
                             <DataGridTextColumn Header="Id старшего в бригаде" Binding="{Binding EmployeeID}"/>
+                            <DataGridCheckBoxColumn Header="Занята ли бригада" Binding="{Binding IsBusy}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -372,6 +373,11 @@
                         <Label Content="Id Страшего в бригаде" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
                         <TextBox Name="EmployeeIDBrigadeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Занята ли бригада" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <CheckBox Name="IsBusyBrigadeCheckBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
 
                     </StackPanel>

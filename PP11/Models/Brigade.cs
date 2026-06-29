@@ -17,6 +17,8 @@ namespace PP11.Models
 
         public string Transport { get; set; }
 
+        public bool IsBusy { get; set; }
+
         public string Filials { get; set; }
 
         public int EmployeeID {  get; set; }
