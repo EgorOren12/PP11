@@ -1083,6 +1083,82 @@
                 </Grid>
 
             </TabItem>
+
+            <TabItem Header="Сформировать заявку" Background="#006CB5" Foreground="White">
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" 
+                                Background="White" Margin="5">
+                        <Label Content="Формирование заявки" HorizontalContentAlignment="Center" Margin="5,5,5,20"
+                               FontSize="17" FontWeight="Bold" Background="#006CB5" Foreground="White" />
+
+                        <Label Content="ФИО" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="FIOOformitTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"
+                                 TextChanged="FIOOformitTextBox_TextChanged"/>
+
+                        <Label Content="Адрес объекта" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="AdresOformitComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="25" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Район" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Textr" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="ZoneOformietTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Тип аварийной ситуации" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="TypeOfSituationOformitTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+
+                        <Label Content="Статус оборудования" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <ComboBox Name="StatusOborudovaniyaOformitTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"/>
+                        <Label Content="Описание проблемы" VerticalAlignment="Bottom" 
+                               FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
+                        <TextBox Name="DiscribingProblemOformitgTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                 Background="#E0E0E0" MinHeight="100" TextWrapping="Wrap"/>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="5" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FF3ABF00" Margin="5" 
+                                    Name="AddButtonOformit"
+                                    MouseLeftButtonDown="AddButtonOformit_MouseLeftButtonDown">
+                            <Image Source="/Icons/Add.png" Margin="3"/>
+                            <Label Content="Оформить заявку" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#006CB5" Margin="5" 
+                                    Name="ToDocumentButtonOformit"
+                                    MouseLeftButtonDown="ToDocumentButtonOformit_MouseLeftButtonDown">
+                            <Image Source="/Icons/free-icon-document-3936484.png" Margin="3"/>
+                            <Label Content="Сохранить заяку в документ" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Height="30" Background="#FFC50000" Margin="5" 
+                                    Name="ClearButtonOformit"
+                                    MouseLeftButtonDown="ClearButtonOformit_MouseLeftButtonDown">
+                            <Image Source="/Icons/Del.png" Margin="3"/>
+                            <Label Content="Очистить поля" FontWeight="Bold"
+                                   FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"
+/>
+                        </StackPanel>
+                    </StackPanel>
+
+                </Grid>
+
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

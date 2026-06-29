@@ -1,5 +1,6 @@
 ﻿using IronWord;
 using IronWord.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using PP11.Data;
 using PP11.Enums;
@@ -24,6 +25,7 @@ namespace PP11
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<Models.Object> currentAbonentObjects = new List<Models.Object>();
         private ContextDB db;
         private List<string> WorkTime = new List<string> { "5/2 8.00 - 17.00",
             "2/2 8.00 - 20.00",
@@ -482,5 +484,113 @@ namespace PP11
             }
         }
         #endregion
+
+        private void ToDocumentButtonOformit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void AddButtonOformit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ClearButtonOformit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void FIOOformitTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string fio = FIOOformitTextBox.Text.Trim();
+
+
+            if (string.IsNullOrEmpty(fio))
+            {
+                AdresOformitComboBox.ItemsSource = null;
+                AdresOformitComboBox.Text = "";
+                ZoneOformietTextBox.Text = "";
+                AdresOformitComboBox.IsEnabled = false;
+                currentAbonentObjects.Clear();
+                return;
+            }
+
+            // Ищем абонента по ФИО (точное совпадение)
+            var abonent = db.Abonents
+                .FirstOrDefault(a => a.FIO == fio);
+
+            if (abonent == null)
+            {
+                // Абонент НЕ найден
+                MessageBox.Show(
+                    "Абонент с таким ФИО не найден в базе данных.\n" +
+                    "Пожалуйста, зарегистрируйте его на вкладке 'Абоненты'.",
+                    "Абонент не найден",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+
+                AdresOformitComboBox.ItemsSource = null;
+                AdresOformitComboBox.Text = "";
+                ZoneOformietTextBox.Text = "";
+                AdresOformitComboBox.IsEnabled = false;
+                currentAbonentObjects.Clear();
+                return;
+            }
+            var objects = db.Objects
+    .Where(o => o.AbonentID == abonent.Id)
+    .ToList();
+            // Абонент найден — загружаем его объекты
+            currentAbonentObjects = objects;
+
+            if (currentAbonentObjects.Any())
+            {
+                // Заполняем ComboBox адресами
+                AdresOformitComboBox.ItemsSource = currentAbonentObjects.Select(o => o.Adress).ToList();
+                AdresOformitComboBox.IsEnabled = true;
+                AdresOformitComboBox.Text = "";
+                ZoneOformietTextBox.Text = "";
+            }
+            else
+            {
+                // У абонента нет объектов
+                MessageBox.Show(
+                    "У данного абонента нет зарегистрированных объектов.\n" +
+                    "Добавьте объект на вкладке 'Объекты'.",
+                    "Нет объектов",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+                AdresOformitComboBox.ItemsSource = null;
+                AdresOformitComboBox.IsEnabled = false;
+                ZoneOformietTextBox.Text = "";
+            }
+        }
+
+        private void AdresOformitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedAdress = AdresOformitComboBox.SelectedItem as string;
+
+            if (string.IsNullOrEmpty(selectedAdress))
+            {
+                ZoneOformietTextBox.Text = "";
+                return;
+            }
+
+            // Ищем объект по адресу
+            var selectedObject = currentAbonentObjects
+                .FirstOrDefault(o => o.Adress == selectedAdress);
+
+            if (selectedObject != null)
+            {
+                // Подставляем район
+                ZoneOformietTextBox.Text = selectedObject.Zones.ToString();
+            }
+            else
+            {
+                ZoneOformietTextBox.Text = "";
+            }
+        }
+
     }
 }
