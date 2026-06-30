@@ -27,7 +27,7 @@ namespace PP11.Models
         public Brigade? Brigade { get; set; }
 
 
-        public Appoinment(string name, string? discription, string danger, string statusOfAppointment, int requestId, int brigadeId)
+        public Appoinment(string name, string? discription, string statusOfAppointment, int requestId, int brigadeId)
         {
             Name = name;
             Discription = discription;

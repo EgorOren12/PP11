@@ -15,9 +15,9 @@ namespace PP11.Models
 
         public string Danger {  get; set; }
 
-        public TimeOnly ABSTime {  get; set; } 
+        public TimeSpan ABSTime {  get; set; } 
 
-        public TypesOfSituation(string name, string description, string danger, TimeOnly timeOnly)
+        public TypesOfSituation(string name, string description, string danger, TimeSpan timeOnly)
         {
             Name = name;
             Description = description;

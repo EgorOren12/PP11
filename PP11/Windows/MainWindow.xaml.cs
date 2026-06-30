@@ -607,7 +607,7 @@ namespace PP11
                 return;
             }
 
-            var result = MessageBox.Show($"Удалить Члена бригады '{selected.FIO}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            var result = MessageBox.Show($"Удалить Пользователя '{selected.FIO}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -636,6 +636,7 @@ namespace PP11
             string error = "";
             if (FIOUserTextBox.Text == "") error += "Заполните ФИО\n";
             if (LoginUserTextBox.Text == "") error += "Заполните Логин\n";
+            if (PasswordUserTextBox.Text == "") error += "Заполните поле Пароль\n";
             if (RoleUserComboBox.Text == "") error += "Выберите роль\n";
             if (FIlialUserComboBox.Text == "") error += "Выберите филиал\n";
             if (EmailUserTextBox.Text == "") error += "Заполните поле Эл.Почта\n";
@@ -649,6 +650,7 @@ namespace PP11
             {
                 selected.FIO = FIOUserTextBox.Text;
                 selected.Login = LoginUserTextBox.Text;
+                selected.Password = PasswordUserTextBox.Text;
                 selected.Role = RoleUserComboBox.Text;
                 selected.Filial = FIlialUserComboBox.Text;
                 selected.Email = EmailUserTextBox.Text;
@@ -697,55 +699,278 @@ namespace PP11
 
         private void DeletePasswordButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (User_DataGrid.SelectedItem is not User selected)
+            {
+                MessageBox.Show("Выберите Пользователя для сбороса пароля", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                selected.Password = "";
+
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearUsers(); ;
+
+                MessageBox.Show($"Пароль пользователя {selected.FIO}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
 
         }
         #endregion
         #region TypeOfSituation
         private void DeleteButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (TypeOfSituation_DataGrid.SelectedItem is not TypesOfSituation selected)
+            {
+                MessageBox.Show("Выберите Тип ситуации для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить Тип ситуации '{selected.Name}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.TypesOfSituation.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearType();
+                    MessageBox.Show("Тип ситуации удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
 
         private void UpdateButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (TypeOfSituation_DataGrid.SelectedItem is not TypesOfSituation selected)
+            {
+                MessageBox.Show("Выберите Тип ситуации для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (NameTypeOfSituationTextBox.Text == "") error += "Заполните Наименование\n";
+            if (DangerTypeOfSituationTextBox.Text == "") error += "Выберите категорию опасности\n";
+            if (ABSTimeTypeOfSituationTextBox.Text == "") error += "Заполните среднее время устранения\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.Name = NameTypeOfSituationTextBox.Text;
+                selected.Danger = DangerTypeOfSituationTextBox.Text;
+                selected.ABSTime = (Convert.ToDateTime(ABSTimeTypeOfSituationTextBox.Text).TimeOfDay);
+                selected.Description = DescriptionTypeOfSituationTextBox.Text;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearType();
+
+                MessageBox.Show("Тип ситуации Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            string error = "";
+            if (NameTypeOfSituationTextBox.Text == "") error += "Заполните Наименование\n";
+            if (DangerTypeOfSituationTextBox.Text == "") error += "Выберите категорию опасности\n";
+            if (ABSTimeTypeOfSituationTextBox.Text == "") error += "Заполните среднее время устранения\n";
 
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var type = new TypesOfSituation(NameTypeOfSituationTextBox.Text, DescriptionTypeOfSituationTextBox.Text, DangerTypeOfSituationTextBox.Text, Convert.ToDateTime(ABSTimeTypeOfSituationTextBox.Text).TimeOfDay);
+                db.TypesOfSituation.Add(type);
+                db.SaveChanges();
+                LoadAllData();
+                ClearType();
+                MessageBox.Show("Тип ситуации добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
         #region RequestCreate
         private void AddButtonReguestCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            string error = "";
+            if (DateOfEnterReguestTextBox.Text == "") error += "Заполните Дату поступления\n";
+            if (DescriptionOfProblemReguestTextBox.Text == "") error += "Заполните описание проблемы\n";
+            if (SourceOfReguestReguestTextBox.Text == "") error += "Выберите источник заявки\n";
+            if (StatusReguestTextBox.Text == "") error += "Выбирете статус заявки\n";
+            if (AbonentIdReguestTextBox.Text == "") error += "Заполните Id Абонента\n";
+            if (ObjectIdReguestTextBox.Text == "") error += "Заполните Id Объекта\n";
+            if (TypeIdReguestTextBox.Text == "") error += "Заполните Id Типа\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var request = new Request(Convert.ToDateTime(DateOfEnterReguestTextBox.Text), DescriptionOfProblemReguestTextBox.Text, SourceOfReguestReguestTextBox.Text, StatusReguestTextBox.Text, null, null, null, null, null, null, null, false, Convert.ToInt32(AbonentIdReguestTextBox.Text), Convert.ToInt32(ObjectIdReguestTextBox.Text), Convert.ToInt32(TypeIdReguestTextBox.Text));
+                db.Requests.Add(request);
+                db.SaveChanges();
+                LoadAllData();
+                ClearRequestCreate();
+                MessageBox.Show("Заявка добавлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
 
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void UpdateButtonReguestCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Reguest_DataGrid.SelectedItem is not Request selected)
+            {
+                MessageBox.Show("Выберите Заявку для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (DateOfEnterReguestTextBox.Text == "") error += "Заполните Дату поступления\n";
+            if (DescriptionOfProblemReguestTextBox.Text == "") error += "Заполните описание проблемы\n";
+            if (SourceOfReguestReguestTextBox.Text == "") error += "Выберите источник заявки\n";
+            if (StatusReguestTextBox.Text == "") error += "Выбирете статус заявки\n";
+            if (AbonentIdReguestTextBox.Text == "") error += "Заполните Id Абонента\n";
+            if (ObjectIdReguestTextBox.Text == "") error += "Заполните Id Объекта\n";
+            if (TypeIdReguestTextBox.Text == "") error += "Заполните Id Типа\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.DateOfEnter = Convert.ToDateTime(DateOfEnterReguestTextBox.Text);
+                selected.DescriptionOfProblem = DescriptionOfProblemReguestTextBox.Text;
+                selected.SourceOfReguest = SourceOfReguestReguestTextBox.Text;
+                selected.Status = StatusReguestTextBox.Text;
+                selected.AbonentId = Convert.ToInt32(AbonentIdReguestTextBox.Text);
+                selected.ObjectId = Convert.ToInt32(ObjectIdReguestTextBox.Text);
+                selected.TypeId = Convert.ToInt32(TypeIdReguestTextBox.Text);
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearRequestCreate();
+
+                MessageBox.Show("Заявка Изменена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
-        private void DeleteButtonReguestCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
         #endregion
         #region RequestClose
-        private void DeleteButtonReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
 
         private void UpdateButtonReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (ReguestClose_DataGrid.SelectedItem is not Request selected)
+            {
+                MessageBox.Show("Выберите Заявку для редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (DateOfStartReguestCloseTextBox.Text == "") error += "Заполните Дату начала устранения\n";
+            if (DateOfEndReguestCloseTextBox.Text == "") error += "Заполните Дату окончания устранения\n";
+            if (DescriptionOfWorkReguestCloseTextBox.Text == "") error += "Заполните описание работы\n";
+            if (UsingMaterialsReguestCloseTextBox.Text == "") error += "Заполните используемые материалы\n";
+            if (DateOfClosingReguestCloseTextBox.Text == "") error += "Заполните Дату закрытия заявки\n";
+            if (ResultOfAppoinmentReguestCloseTextBox.Text == "") error += "Заполните результат выполнения\n";
+            if (CommentOfCloseReguestCloseTextBox.Text == "") error += "Заполните комментарий закрытия\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.DateOfStart = Convert.ToDateTime(DateOfStartReguestCloseTextBox.Text);
+                selected.DateOfEnd = Convert.ToDateTime(DateOfEndReguestCloseTextBox.Text);
+                selected.DescriptionOfWork = DescriptionOfWorkReguestCloseTextBox.Text;
+                selected.UsingMaterials = UsingMaterialsReguestCloseTextBox.Text;
+                selected.DateOfClosing = Convert.ToDateTime(DateOfClosingReguestCloseTextBox.Text);
+                selected.ResultOfAppoinment = ResultOfAppoinmentReguestCloseTextBox.Text;
+                selected.CommentOfClose = CommentOfCloseReguestCloseTextBox.Text;
+                selected.InformingOfAbonent = InformingOfAbonentReguestCloseTextBox.IsChecked.Value;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearRequestClose();
+
+                MessageBox.Show("Заявка Изменена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (ReguestClose_DataGrid.SelectedItem is not Request selected)
+            {
+                MessageBox.Show("Выберите Заявку для закрытия", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (DateOfStartReguestCloseTextBox.Text == "") error += "Заполните Дату начала устранения\n";
+            if (DateOfEndReguestCloseTextBox.Text == "") error += "Заполните Дату окончания устранения\n";
+            if (DescriptionOfWorkReguestCloseTextBox.Text == "") error += "Заполните описание работы\n";
+            if (UsingMaterialsReguestCloseTextBox.Text == "") error += "Заполните используемые материалы\n";
+            if (DateOfClosingReguestCloseTextBox.Text == "") error += "Заполните Дату закрытия заявки\n";
+            if (ResultOfAppoinmentReguestCloseTextBox.Text == "") error += "Заполните результат выполнения\n";
+            if (CommentOfCloseReguestCloseTextBox.Text == "") error += "Заполните комментарий закрытия\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.DateOfStart = Convert.ToDateTime(DateOfStartReguestCloseTextBox.Text);
+                selected.DateOfEnd = Convert.ToDateTime(DateOfEndReguestCloseTextBox.Text);
+                selected.DescriptionOfWork = DescriptionOfWorkReguestCloseTextBox.Text;
+                selected.UsingMaterials = UsingMaterialsReguestCloseTextBox.Text;
+                selected.DateOfClosing = Convert.ToDateTime(DateOfClosingReguestCloseTextBox.Text);
+                selected.ResultOfAppoinment = ResultOfAppoinmentReguestCloseTextBox.Text;
+                selected.CommentOfClose = CommentOfCloseReguestCloseTextBox.Text;
+                selected.InformingOfAbonent = InformingOfAbonentReguestCloseTextBox.IsChecked.Value;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearRequestClose();
+
+                MessageBox.Show("Заявка закрыта", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
         #endregion
         #region requestFull
@@ -800,17 +1025,94 @@ namespace PP11
         #region Appoinment
         private void AddButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            string error = "";
+            if (NameAppoinmentTextBox.Text == "") error += "Заполните Наименование\n";
+            if (StatusOfAppointmentAppoinmentTextBox.Text == "") error += "Выберите статус назначения\n";
+            if (RequestIdAppoinmentComboBox.Text == "") error += "Заполните Id заявки\n";
+            if (BrigadeIdAppoinmentTextBox.Text == "") error += "Заполните Id бригады\n";
 
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var appointment = new Appoinment(NameAppoinmentTextBox.Text, DiscriptionAppoinmentComboBox.Text, StatusOfAppointmentAppoinmentTextBox.Text, Convert.ToInt32(RequestIdAppoinmentComboBox.Text), Convert.ToInt32(BrigadeIdAppoinmentTextBox.Text));
+                db.Appoinments.Add(appointment);
+                db.SaveChanges();
+                LoadAllData();
+                ClearAppointment();
+                MessageBox.Show("Назначение добавлено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void UpdateButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Appoinment_DataGrid.SelectedItem is not Appoinment selected)
+            {
+                MessageBox.Show("Выберите Назначение для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (NameAppoinmentTextBox.Text == "") error += "Заполните Наименование\n";
+            if (StatusOfAppointmentAppoinmentTextBox.Text == "") error += "Выберите статус назначения\n";
+            if (RequestIdAppoinmentComboBox.Text == "") error += "Заполните Id заявки\n";
+            if (BrigadeIdAppoinmentTextBox.Text == "") error += "Заполните Id бригады\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.Name = NameTypeOfSituationTextBox.Text;
+                selected.StatusOfAppointment = StatusOfAppointmentAppoinmentTextBox.Text;
+                selected.RequestId = Convert.ToInt32(RequestIdAppoinmentComboBox.Text);
+                selected.BrigadeId = Convert.ToInt32(BrigadeIdAppoinmentTextBox.Text);
+                selected.Discription = DescriptionTypeOfSituationTextBox.Text;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearAppointment();
+
+                MessageBox.Show("Назначение Изменено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void DeleteButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (Appoinment_DataGrid.SelectedItem is not Appoinment selected)
+            {
+                MessageBox.Show("Выберите Назначение для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить Назначение '{selected.Name}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.Appoinments.Remove(selected);
+                    db.SaveChanges();
+
+                    ClearAppointment();
+
+                    MessageBox.Show("Назначение удалено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
         #endregion
         #region Clear
@@ -868,6 +1170,44 @@ namespace PP11
             EmailUserTextBox.Text = null;
 
             ActivityUserCheckBox.IsChecked = null;
+        }
+        private void ClearType()
+        {
+            NameTypeOfSituationTextBox.Text = null;
+            DescriptionTypeOfSituationTextBox.Text = null;
+            DangerTypeOfSituationTextBox.SelectedItem = null;
+            ABSTimeTypeOfSituationTextBox.Text = null;
+        }
+
+        private void ClearRequestCreate()
+        {
+            DateOfEnterReguestTextBox.SelectedDate = null;
+            DescriptionOfProblemReguestTextBox.Text = null;
+            SourceOfReguestReguestTextBox.SelectedItem = null;
+            StatusReguestTextBox.SelectedItem = null;
+            AbonentIdReguestTextBox.Text = null;
+            ObjectIdReguestTextBox.Text = null;
+            TypeIdReguestTextBox.Text = null;
+        }
+        private void ClearRequestClose()
+        {
+            DateOfStartReguestCloseTextBox.SelectedDate = null;
+            DateOfEndReguestCloseTextBox.SelectedDate = null;
+            DescriptionOfWorkReguestCloseTextBox.Text = null;
+            UsingMaterialsReguestCloseTextBox.Text = null;
+            DateOfClosingReguestCloseTextBox.SelectedDate = null;
+            ResultOfAppoinmentReguestCloseTextBox.SelectedItem = null;
+            CommentOfCloseReguestCloseTextBox.Text = null;
+            InformingOfAbonentReguestCloseTextBox.IsChecked = null;
+        }
+
+        private void ClearAppointment()
+        {
+            NameAppoinmentTextBox.Text = null;
+            DiscriptionAppoinmentComboBox.Text = null;
+            StatusOfAppointmentAppoinmentTextBox.SelectedItem = null;
+            RequestIdAppoinmentComboBox.Text = null;
+            BrigadeIdAppoinmentTextBox.Text = null;
         }
         #endregion
 
