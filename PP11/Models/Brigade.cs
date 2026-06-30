@@ -27,8 +27,6 @@ namespace PP11.Models
         [ForeignKey(nameof(EmployeeID))]
         public Employee? Employee { get; set; }
 
-        public MembersOfBrigade? MembersOfBrigade { get; set; }
-
         public Brigade(string name, string zones, string transport, string filials, int employeeId, bool isBusy) 
         {
             Name = name;

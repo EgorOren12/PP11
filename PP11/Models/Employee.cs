@@ -19,7 +19,7 @@ namespace PP11.Models
 
         public Brigade? Brigade { get; set; }
 
-        public MembersOfBrigade? MembersOfBrigade { get; set; }
+        MembersOfBrigade? membersOfBrigade {  get; set; }
 
         public Employee(string fIO, string post, string cvalification, string timeOfWork)
         {

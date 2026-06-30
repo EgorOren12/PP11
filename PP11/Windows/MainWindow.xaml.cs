@@ -430,7 +430,10 @@ namespace PP11
                     MessageBox.Show("Бригада удалена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                {
+                    db.ChangeTracker.Clear();
+                    LoadAllData();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
 
@@ -470,7 +473,10 @@ namespace PP11
                 MessageBox.Show("Бригада Изменена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                db.ChangeTracker.Clear();
+                LoadAllData();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -493,11 +499,12 @@ namespace PP11
                 db.SaveChanges();
                 LoadAllData();
                 ClearBrigade();
-                MessageBox.Show("Объект успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Бригада успешно добавлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
             {
-
+                db.ChangeTracker.Clear();
+                LoadAllData();
                 MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -505,33 +512,187 @@ namespace PP11
         #region MembersOfBrigade
         private void AddButtonMembersOfBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            string error = "";
+            if (RoleInBrigadeMembersOfBrigadeComboBox.Text == "") error += "Быберите роль в бригаде\n";
+            if (BrigadeIdMembersOfBrigadeTextBox.Text == "") error += "Заполните Id Бригады\n";
+            if (EmployeeIdMembersOfBrigadeTextBox.Text == "") error += "Заполните Id Сотрудника\n";
 
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var chelen = new MembersOfBrigade(RoleInBrigadeMembersOfBrigadeComboBox.Text, Convert.ToInt32(EmployeeIdMembersOfBrigadeTextBox.Text), Convert.ToInt32(BrigadeIdMembersOfBrigadeTextBox.Text));
+                db.MembersOfBrigades.Add(chelen);
+                db.SaveChanges();
+                LoadAllData();
+                ClearMembers();
+                MessageBox.Show("Член бригады успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void UpdateButtonMembersOfBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (MembersOfBrigade_DataGrid.SelectedItem is not MembersOfBrigade selected)
+            {
+                MessageBox.Show("Выберите Члена бригады для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (RoleInBrigadeMembersOfBrigadeComboBox.Text == "") error += "Быберите роль в бригаде\n";
+            if (BrigadeIdMembersOfBrigadeTextBox.Text == "") error += "Заполните Id Бригады\n";
+            if (EmployeeIdMembersOfBrigadeTextBox.Text == "") error += "Заполните Id Сотрудника\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.RoleInBrigade = RoleInBrigadeMembersOfBrigadeComboBox.Text;
+                selected.BrigadeId = Convert.ToInt32(BrigadeIdMembersOfBrigadeTextBox.Text);
+                selected.EmployeeId = Convert.ToInt32(EmployeeIdMembersOfBrigadeTextBox.Text);
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearMembers(); ;
+
+                MessageBox.Show("Член бригады Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void DeleteButtonMembersOfBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (MembersOfBrigade_DataGrid.SelectedItem is not MembersOfBrigade selected)
+            {
+                MessageBox.Show("Выберите Члена бригады для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить Члена бригады '{selected.Id}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.MembersOfBrigades.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearMembers() ;
+                    MessageBox.Show("Член бригады удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
         #endregion
         #region users
         private void DeleteButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (User_DataGrid.SelectedItem is not User selected)
+            {
+                MessageBox.Show("Выберите Пользователя для удаления", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            var result = MessageBox.Show($"Удалить Члена бригады '{selected.FIO}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.Users.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearUsers();
+                    MessageBox.Show("Пользователь удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            }
         }
 
         private void UpdateButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (User_DataGrid.SelectedItem is not User selected)
+            {
+                MessageBox.Show("Выберите Пользователя для Редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
 
+            string error = "";
+            if (FIOUserTextBox.Text == "") error += "Заполните ФИО\n";
+            if (LoginUserTextBox.Text == "") error += "Заполните Логин\n";
+            if (RoleUserComboBox.Text == "") error += "Выберите роль\n";
+            if (FIlialUserComboBox.Text == "") error += "Выберите филиал\n";
+            if (EmailUserTextBox.Text == "") error += "Заполните поле Эл.Почта\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                selected.FIO = FIOUserTextBox.Text;
+                selected.Login = LoginUserTextBox.Text;
+                selected.Role = RoleUserComboBox.Text;
+                selected.Filial = FIlialUserComboBox.Text;
+                selected.Email = EmailUserTextBox.Text;
+                selected.Activity = ActivityUserCheckBox.IsChecked;
+
+                db.SaveChanges();
+                LoadAllData();
+                ClearUsers(); ;
+
+                MessageBox.Show("Пользователь Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            string error = "";
+            if (FIOUserTextBox.Text == "") error += "Заполните ФИО\n";
+            if (LoginUserTextBox.Text == "") error += "Заполните Логин\n";
+            if (PasswordUserTextBox.Text == "") error += "Заполните поле Пароль\n";
+            if (RoleUserComboBox.Text == "") error += "Выберите роль\n";
+            if (FIlialUserComboBox.Text == "") error += "Выберите филиал\n";
+            if (EmailUserTextBox.Text == "") error += "Заполните поле Эл.Почта\n";
 
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                var user = new User(FIOUserTextBox.Text, LoginUserTextBox.Text, PasswordUserTextBox.Text, RoleUserComboBox.Text, FIlialUserComboBox.Text, EmailUserTextBox.Text, null, true);
+                db.Users.Add(user);
+                db.SaveChanges();
+                LoadAllData();
+                ClearUsers();
+                MessageBox.Show("Пользователь успешно добавлен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void DeletePasswordButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -690,6 +851,24 @@ namespace PP11
             EmployeeIDBrigadeTextBox.Text = null;
             IsBusyBrigadeCheckBox.IsChecked = false;
         }
+
+        private void ClearMembers()
+        {
+            RoleInBrigadeMembersOfBrigadeComboBox.SelectedItem = null;
+            BrigadeIdMembersOfBrigadeTextBox.Text = null;
+            EmployeeIdMembersOfBrigadeTextBox.Text = null;
+        }
+        private void ClearUsers()
+        {
+            FIOUserTextBox.Text = null;
+            LoginUserTextBox.Text = null;
+            PasswordUserTextBox.Text = null;
+            RoleUserComboBox.SelectedItem = null;
+            FIlialUserComboBox.SelectedItem = null;
+            EmailUserTextBox.Text = null;
+
+            ActivityUserCheckBox.IsChecked = null;
+        }
         #endregion
 
         #region SelectidChanged
@@ -762,7 +941,6 @@ namespace PP11
             {
                 FIOUserTextBox.Text = selected.FIO;
                 LoginUserTextBox.Text = selected.Login;
-                PasswordUserTextBox.Text = selected.Password;
                 RoleUserComboBox.SelectedItem = selected.Role;
                 FIlialUserComboBox.SelectedItem = selected.Filial;
                 EmailUserTextBox.Text = selected.Email;
