@@ -108,6 +108,11 @@ namespace PP11
             }
         }
 
+        private void ResetContext()
+        {
+            db.ChangeTracker.Clear();
+            LoadAllData();
+        }
 
 
         private void RefreshButton1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -137,7 +142,9 @@ namespace PP11
                     MessageBox.Show("Абонент удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                {
+                    ResetContext();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
         private void UpdateButtonAbonent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -179,7 +186,9 @@ namespace PP11
                 MessageBox.Show("Абонент Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
 
 
         }
@@ -210,6 +219,7 @@ namespace PP11
             }
             catch (Exception ex)
             {
+                ResetContext();
                 MessageBox.Show("Ошибка, проверьте корректность своих данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -239,6 +249,7 @@ namespace PP11
             }
             catch (Exception ex)
             {
+                ResetContext();
                 MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -276,7 +287,9 @@ namespace PP11
                 MessageBox.Show("Сотрудник Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void DeleteButtonEmployee_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -301,7 +314,8 @@ namespace PP11
                     MessageBox.Show("Сотрудник удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                { ResetContext(); 
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
         #endregion
@@ -328,7 +342,8 @@ namespace PP11
                     MessageBox.Show("Объект удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                { ResetContext(); 
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
 
@@ -372,7 +387,8 @@ namespace PP11
                 MessageBox.Show("Объект Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            { ResetContext(); 
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonObject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -403,6 +419,7 @@ namespace PP11
             }
             catch (Exception ex)
             {
+                ResetContext();
                 MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -621,7 +638,8 @@ namespace PP11
                     MessageBox.Show("Пользователь удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                { ResetContext(); 
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
 
@@ -663,7 +681,9 @@ namespace PP11
                 MessageBox.Show("Пользователь Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -716,7 +736,8 @@ namespace PP11
                 MessageBox.Show($"Пароль пользователя {selected.FIO}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            { ResetContext(); 
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
 
         }
         #endregion
@@ -743,7 +764,8 @@ namespace PP11
                     MessageBox.Show("Тип ситуации удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                { ResetContext(); 
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
 
@@ -779,7 +801,9 @@ namespace PP11
                 MessageBox.Show("Тип ситуации Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void AddButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -805,7 +829,7 @@ namespace PP11
             }
             catch (Exception ex)
             {
-
+                ResetContext();
                 MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -837,7 +861,7 @@ namespace PP11
             }
             catch (Exception ex)
             {
-
+                ResetContext();
                 MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -881,7 +905,9 @@ namespace PP11
                 MessageBox.Show("Заявка Изменена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         #endregion
@@ -905,6 +931,7 @@ namespace PP11
             if (CommentOfCloseReguestCloseTextBox.Text == "") error += "Заполните комментарий закрытия\n";
             if (error != "")
             {
+                ResetContext();
                 MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -970,7 +997,8 @@ namespace PP11
                 MessageBox.Show("Заявка закрыта", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            { ResetContext(); 
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
         #endregion
         #region requestFull
@@ -1047,7 +1075,7 @@ namespace PP11
             }
             catch (Exception ex)
             {
-
+                ResetContext();
                 MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -1086,7 +1114,8 @@ namespace PP11
                 MessageBox.Show("Назначение Изменено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            { ResetContext(); 
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
         }
 
         private void DeleteButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1107,11 +1136,13 @@ namespace PP11
                     db.SaveChanges();
 
                     ClearAppointment();
-
+                    LoadAllData();
                     MessageBox.Show("Назначение удалено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                {
+                    ResetContext();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
             }
         }
         #endregion
