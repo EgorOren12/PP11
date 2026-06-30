@@ -280,7 +280,7 @@
 
                         <Label Content="ID Абонента" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                        <TextBox Name="AbonentIDObjectTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                        <ComboBox Name="AbonentIDObjectTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" />
                     </StackPanel>
 
@@ -376,7 +376,7 @@
 
                         <Label Content="Id Страшего в бригаде" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                        <TextBox Name="EmployeeIDBrigadeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                        <ComboBox Name="EmployeeIDBrigadeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
 
                         <Label Content="Занята ли бригада" VerticalAlignment="Bottom" 
@@ -435,9 +435,9 @@
                               SelectionChanged="MembersOfBrigade_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Id Члена бригады" Width="75" Binding="{Binding Id}"/>
-                            <DataGridTextColumn Header="Роль в бригаде" Binding="{Binding Name}"/>
-                            <DataGridTextColumn Header="Id Бригады" Binding="{Binding Zones}"/>
-                            <DataGridTextColumn Header="Id Сотрудника" Binding="{Binding Transport}"/>
+                            <DataGridTextColumn Header="Роль в бригаде" Binding="{Binding RoleInBrigade}"/>
+                            <DataGridTextColumn Header="Id Бригады" Binding="{Binding BrigadeId}"/>
+                            <DataGridTextColumn Header="Id Сотрудника" Binding="{Binding EmployeeId}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 
@@ -460,12 +460,12 @@
 
                         <Label Content="Id Бригады" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                        <TextBox Name="BrigadeIdMembersOfBrigadeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                        <ComboBox Name="BrigadeIdMembersOfBrigadeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
 
                         <Label Content="Id Сотрудника" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                        <TextBox Name="EmployeeIdMembersOfBrigadeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                        <ComboBox Name="EmployeeIdMembersOfBrigadeTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
 
 
@@ -637,7 +637,7 @@
                               AutoGenerateColumns="False"
                               SelectionChanged="TypeOfSituation_DataGrid_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id Ситуации" Width="75" Binding="{Binding Id}"/>
+                            <DataGridTextColumn Header="Id Ситуации" Width="75" Binding="{Binding ID}"/>
                             <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"/>
                             <DataGridTextColumn Header="Описание" Binding="{Binding Description}"/>
                             <DataGridTextColumn Header="Опасность" Binding="{Binding Danger}"/>
@@ -777,17 +777,17 @@
 
                                     <Label Content="Id Абонента" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                                    <TextBox Name="AbonentIdReguestTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                    <ComboBox Name="AbonentIdReguestTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
 
                                     <Label Content="Id Объекта" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                                    <TextBox Name="ObjectIdReguestTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                    <ComboBox Name="ObjectIdReguestTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
 
                                     <Label Content="Id Типа" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                                    <TextBox Name="TypeIdReguestTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                                    <ComboBox Name="TypeIdReguestTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                                 </StackPanel>
                             </ScrollViewer>
@@ -1028,12 +1028,12 @@
 
                         <Label Content="Id Заявки" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                        <TextBox Name="RequestIdAppoinmentComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                        <ComboBox Name="RequestIdAppoinmentComboBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
 
                         <Label Content="Id Бригады" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                        <TextBox Name="BrigadeIdAppoinmentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                        <ComboBox Name="BrigadeIdAppoinmentTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
 
                     </StackPanel>
@@ -1084,7 +1084,7 @@
 
                         <Label Content="ФИО" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
-                        <TextBox Name="FIOOformitTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
+                        <ComboBox Name="FIOOformitTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
                                  Background="#E0E0E0"  MinHeight="20" VerticalContentAlignment="Center"
                                  SelectionChanged="FIOOformitTextBox_SelectionChanged"/>
 
@@ -1097,7 +1097,8 @@
                         <Label Content="Район" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Textr" FontWeight="Bold" Margin="5,-5,5,0"/>
                         <TextBox Name="ZoneOformietTextBox" BorderBrush="Transparent" Margin="5,-5,5,5"
-                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"/>
+                                 Background="#E0E0E0" MinHeight="20" VerticalContentAlignment="Center"
+                                 />
 
                         <Label Content="Тип аварийной ситуации" VerticalAlignment="Bottom" 
                                FontSize="14" FontFamily="Sitka Text" FontWeight="Bold" Margin="5,-5,5,0"/>
@@ -1128,7 +1129,7 @@
                                     Name="ToDocumentButtonOformit"
                                     MouseLeftButtonDown="ToDocumentButtonOformit_MouseLeftButtonDown">
                             <Image Source="/Icons/free-icon-document-3936484.png" Margin="3"/>
-                            <Label Content="Сохранить заяку в документ" FontWeight="Bold"
+                            <Label Content="Документ стандартной заявки" FontWeight="Bold"
                                    FontSize="14" Margin="-5,0,0,0" VerticalContentAlignment="Center"/>
                         </StackPanel>
 

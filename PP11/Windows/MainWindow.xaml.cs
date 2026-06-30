@@ -1,10 +1,12 @@
-﻿using IronWord;
+﻿using Azure.Identity;
+using IronWord;
 using IronWord.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using PP11.Data;
 using PP11.Enums;
 using PP11.Models;
+using System.Drawing.Printing;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -17,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Color = IronWord.Models.Color;
 using Paragraph = IronWord.Models.Paragraph;
 
 namespace PP11
@@ -26,6 +29,99 @@ namespace PP11
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<string> DangerList = new List<string>
+    {
+        "Высокий",
+        "Средний",
+        "Низкий"
+    };
+        private List<string> FilialsList = new List<string>
+    {
+        "Оренбург",
+        "Бузулук",
+        "Орск",
+        "Новотроицк",
+        "Медногорск",
+        "Кувандык",
+        "Сорочинск",
+        "Гай",
+        "Абдулино",
+        "Бугуруслан"
+    };
+        private List<string> ObjectsTypeList = new List<string>
+    {
+        "Жилой_Дом",
+        "Квартира",
+        "Частный_Дом",
+        "Социальный_Объект"
+    };
+        private List<string> OborudovanieTypeList = new List<string>
+    {
+        "Газовый_Котел",
+        "Газовая_Плита",
+        "Водонагреватель",
+        "Счетчик"
+    };
+        private List<string> PostList = new List<string>
+    {
+        "Слесарь",
+        "Мастер",
+        "Диспетчер",
+        "Инженер",
+        "Начальник_Участка"
+    };
+        private List<string> RequestStatusList = new List<string>
+    {
+        "Новая",
+        "В_Работе",
+        "Выполнена",
+        "Закрыта"
+    };
+        private List<string> ResultOfAppointmentList = new List<string>
+    {
+        "Устранено",
+        "Требуется_Замена",
+        "Требуется_Повторная_Проверка"
+    };
+        private List<string> RolesList = new List<string>
+    {
+        "Администратор",
+        "Диспетчер",
+        "Руководитель"
+    };
+        private List<string> SourceOfRequestList = new List<string>
+    {
+        "Телефон_04",
+        "Телефон_104",
+        "Личный_Прием"
+    };
+        private List<string> StatusOborudovaniyaList = new List<string>
+    {
+        "Исправно",
+        "Требуется_Ремонт",
+        "Аварийное"
+    };
+        private List<string> StatusOfAppointmentList = new List<string>
+    {
+        "Назначено",
+        "В_Пути",
+        "Прибыли",
+        "Выполняется"
+    };
+        private List<string> ZonesList = new List<string>
+    {
+        "Центральный",
+        "Дзержинский",
+        "Промышленный",
+        "Ленинский",
+        "Октябрьский",
+        "Северный",
+        "Южный",
+        "Западный",
+        "Восточный",
+        "Степной"
+    };
+
         private List<Models.Object> currentAbonentObjects = new List<Models.Object>();
         private ContextDB db;
         private List<string> WorkTime = new List<string> { "5/2 8.00 - 17.00",
@@ -40,7 +136,7 @@ namespace PP11
             InitializeComponent();
             db = new ContextDB();
             LoadAllData();
-            
+
         }
         private void LoadAllData()
         {
@@ -50,31 +146,59 @@ namespace PP11
 
         private void LoadData()
         {
-            PostEmployeeComboBox.ItemsSource = Enum.GetValues(typeof(Post));
+            PostEmployeeComboBox.ItemsSource = PostList;
             TimeOfWorkEmployeeComboBox.ItemsSource = WorkTime;
 
-            OborudovanieTypeObjectComboBox.ItemsSource = Enum.GetValues(typeof(OborudovanieType));
-            ObjectsTypeObjectComboBox.ItemsSource = Enum.GetValues(typeof(ObjectsType));
-            ZonesObjectComboBox.ItemsSource = Enum.GetValues(typeof(Zones));
-            StatusOborudovaniyaObjectTextBox.ItemsSource = Enum.GetValues(typeof(StatusOborudovaniya));
+            OborudovanieTypeObjectComboBox.ItemsSource = OborudovanieTypeList;
+            ObjectsTypeObjectComboBox.ItemsSource = ObjectsTypeList;
+            ZonesObjectComboBox.ItemsSource = ZonesList;
+            StatusOborudovaniyaObjectTextBox.ItemsSource = StatusOborudovaniyaList;
 
 
-            ZonesBrigadeComboBox.ItemsSource = Enum.GetValues(typeof(Zones));
-            FilialBrigadeComboBox.ItemsSource = Enum.GetValues(typeof(Filials));
+            ZonesBrigadeComboBox.ItemsSource = ZonesList;
+            FilialBrigadeComboBox.ItemsSource = FilialsList;
 
-            RoleInBrigadeMembersOfBrigadeComboBox.ItemsSource = Enum.GetValues(typeof(Post));
+            RoleInBrigadeMembersOfBrigadeComboBox.ItemsSource = PostList;
 
-            RoleUserComboBox.ItemsSource = Enum.GetValues( typeof(Roles));
-            FIlialUserComboBox.ItemsSource = Enum.GetValues(typeof(Filials));
+            RoleUserComboBox.ItemsSource = RolesList;
+            FIlialUserComboBox.ItemsSource = FilialsList;
 
-            DangerTypeOfSituationTextBox.ItemsSource = Enum.GetValues(typeof(Danger));
+            DangerTypeOfSituationTextBox.ItemsSource = DangerList;
 
-            SourceOfReguestReguestTextBox.ItemsSource = Enum.GetValues(typeof(SourceOfReguest));
-            StatusReguestTextBox.ItemsSource = Enum.GetValues(typeof(RequestStatus));
+            SourceOfReguestReguestTextBox.ItemsSource = SourceOfRequestList;
+            StatusReguestTextBox.ItemsSource = RequestStatusList;
 
-            ResultOfAppoinmentReguestCloseTextBox.ItemsSource = Enum.GetValues(typeof(ResultOfAppoinment));
+            ResultOfAppoinmentReguestCloseTextBox.ItemsSource = ResultOfAppointmentList;
 
-            StatusOfAppointmentAppoinmentTextBox.ItemsSource = Enum.GetValues(typeof(StatusOfAppoinment));
+            StatusOfAppointmentAppoinmentTextBox.ItemsSource = StatusOfAppointmentList;
+
+            TypeOfSituationOformitTextBox.ItemsSource = (from t in db.TypesOfSituation select t.Name).ToList();
+            StatusOborudovaniyaOformitTextBox.ItemsSource = StatusOborudovaniyaList;
+            FIOOformitTextBox.ItemsSource = (from t in db.Abonents select t.FIO).ToList();
+
+            #region Foreginkey
+            AbonentIDObjectTextBox.ItemsSource = (from t in db.Abonents select t.Id).ToList();
+
+            EmployeeIDBrigadeTextBox.ItemsSource = (from t in db.Employees select t.Id).ToList();
+
+            BrigadeIdMembersOfBrigadeTextBox.ItemsSource = (from t in db.Brigades select t.Id).ToList();
+
+            EmployeeIdMembersOfBrigadeTextBox.ItemsSource =
+    (from e in db.Employees
+     where !db.MembersOfBrigades.Any(m => m.EmployeeId == e.Id) 
+     select e.Id)
+     .ToList();
+
+            AbonentIdReguestTextBox.ItemsSource = (from t in db.Abonents select t.Id).ToList();
+
+            ObjectIdReguestTextBox.ItemsSource = (from t in db.Objects select t.Id).ToList();
+
+            TypeIdReguestTextBox.ItemsSource = (from t in db.TypesOfSituation select t.ID).ToList();
+
+            RequestIdAppoinmentComboBox.ItemsSource = (from t in db.Requests select t.Id).ToList();
+
+            BrigadeIdAppoinmentTextBox.ItemsSource = (from t in db.Brigades where t.IsBusy==false select t.Id).ToList();
+            #endregion
         }
         private void LoadDataGridsData()
         {
@@ -117,7 +241,8 @@ namespace PP11
 
         private void RefreshButton1_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            db.ChangeTracker.Clear();
+            LoadAllData();
         }
         #region Abonent
         private void DeleteButtonAbonent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -144,7 +269,8 @@ namespace PP11
                 catch (Exception ex)
                 {
                     ResetContext();
-                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         private void UpdateButtonAbonent_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -188,7 +314,8 @@ namespace PP11
             catch (Exception ex)
             {
                 ResetContext();
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
 
         }
@@ -289,7 +416,8 @@ namespace PP11
             catch (Exception ex)
             {
                 ResetContext();
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void DeleteButtonEmployee_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -314,8 +442,10 @@ namespace PP11
                     MessageBox.Show("Сотрудник удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { ResetContext(); 
-                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                {
+                    ResetContext();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         #endregion
@@ -342,8 +472,10 @@ namespace PP11
                     MessageBox.Show("Объект удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { ResetContext(); 
-                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                {
+                    ResetContext();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -355,7 +487,7 @@ namespace PP11
                 return;
             }
 
-                string error = "";
+            string error = "";
             if (AdressObjectTextBox.Text == "") error += "Заполните Адрес\n";
             if (ZonesObjectComboBox.Text == "") error += "Выберите район\n";
             if (ObjectsTypeObjectComboBox.Text == "") error += "Выберите тип оборудования\n";
@@ -387,8 +519,10 @@ namespace PP11
                 MessageBox.Show("Объект Изменен", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { ResetContext(); 
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddButtonObject_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -450,7 +584,8 @@ namespace PP11
                 {
                     db.ChangeTracker.Clear();
                     LoadAllData();
-                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -493,7 +628,8 @@ namespace PP11
             {
                 db.ChangeTracker.Clear();
                 LoadAllData();
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddButtonBrigade_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -511,7 +647,7 @@ namespace PP11
             }
             try
             {
-                var brigade = new Brigade(NameBrigadeTextBox.Text, ZonesBrigadeComboBox.Text, TransportBrigadeTextBox.Text, FilialBrigadeComboBox.Text, Convert.ToInt32(EmployeeIDBrigadeTextBox.Text),IsBusyBrigadeCheckBox.IsChecked.Value);
+                var brigade = new Brigade(NameBrigadeTextBox.Text, ZonesBrigadeComboBox.Text, TransportBrigadeTextBox.Text, FilialBrigadeComboBox.Text, Convert.ToInt32(EmployeeIDBrigadeTextBox.Text), IsBusyBrigadeCheckBox.IsChecked.Value);
                 db.Brigades.Add(brigade);
                 db.SaveChanges();
                 LoadAllData();
@@ -607,7 +743,7 @@ namespace PP11
                     db.SaveChanges();
 
                     LoadAllData();
-                    ClearMembers() ;
+                    ClearMembers();
                     MessageBox.Show("Член бригады удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
@@ -638,8 +774,10 @@ namespace PP11
                     MessageBox.Show("Пользователь удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { ResetContext(); 
-                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                {
+                    ResetContext();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -683,7 +821,8 @@ namespace PP11
             catch (Exception ex)
             {
                 ResetContext();
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddButtonUser_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -736,8 +875,10 @@ namespace PP11
                 MessageBox.Show($"Пароль пользователя {selected.FIO}", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { ResetContext(); 
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         }
         #endregion
@@ -764,8 +905,10 @@ namespace PP11
                     MessageBox.Show("Тип ситуации удален", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
-                { ResetContext(); 
-                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                {
+                    ResetContext();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
 
@@ -803,7 +946,8 @@ namespace PP11
             catch (Exception ex)
             {
                 ResetContext();
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void AddButtonTypeOfSituation_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -907,7 +1051,8 @@ namespace PP11
             catch (Exception ex)
             {
                 ResetContext();
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         #endregion
@@ -997,14 +1142,40 @@ namespace PP11
                 MessageBox.Show("Заявка закрыта", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { ResetContext(); 
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         #endregion
         #region requestFull
         private void DeleteButtonFullReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (ReguestClose_DataGrid.SelectedItem is not Request selected)
+            {
+                MessageBox.Show("Выберите Заявку для редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var result = MessageBox.Show($"Удалить заявку '{selected.Id}'?\n", "Подтверждение", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    db.Requests.Remove(selected);
+                    db.SaveChanges();
+
+                    LoadAllData();
+                    ClearBrigade();
+                    MessageBox.Show("заявка удалена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    db.ChangeTracker.Clear();
+                    LoadAllData();
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void DocButtonFullReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1014,7 +1185,7 @@ namespace PP11
             User user = (User)User_DataGrid.SelectedItem;
 
             var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Документ Word (*.docx)|*.docx"; 
+            saveFileDialog.Filter = "Документ Word (*.docx)|*.docx";
             saveFileDialog.FileName = "МойДокумент.docx";
 
             if (saveFileDialog.ShowDialog() == true)
@@ -1026,12 +1197,12 @@ namespace PP11
 
                 textRun.Style = new TextStyle()
                 {
-                    FontSize = 14, 
-                    IsBold = false, 
+                    FontSize = 14,
+                    IsBold = false,
                     Color = System.Drawing.Color.Black,
                     TextFont = new Font()
                     {
-                        FontFamily = "Times New Roman" 
+                        FontFamily = "Times New Roman"
                     }
                 };
 
@@ -1047,7 +1218,7 @@ namespace PP11
 
 
 
-            
+
         }
         #endregion
         #region Appoinment
@@ -1064,12 +1235,25 @@ namespace PP11
                 MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            var bri = db.Brigades.FirstOrDefault(b => b.Id == Convert.ToInt32(BrigadeIdAppoinmentTextBox.Text));
+            if (bri != null)
+            {
+                if (bri.IsBusy == true)
+                {
+                    MessageBox.Show("Данная бригада занята, выберите другую", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); return;
+                }
+            }
             try
             {
+
                 var appointment = new Appoinment(NameAppoinmentTextBox.Text, DiscriptionAppoinmentComboBox.Text, StatusOfAppointmentAppoinmentTextBox.Text, Convert.ToInt32(RequestIdAppoinmentComboBox.Text), Convert.ToInt32(BrigadeIdAppoinmentTextBox.Text));
+
                 db.Appoinments.Add(appointment);
                 db.SaveChanges();
                 LoadAllData();
+
+
+                bri.IsBusy = true;
                 ClearAppointment();
                 MessageBox.Show("Назначение добавлено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -1098,9 +1282,18 @@ namespace PP11
                 MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-
+            var bri = db.Brigades.FirstOrDefault(b => b.Id == Convert.ToInt32(BrigadeIdAppoinmentTextBox.Text));
+            if (bri != null)
+            {
+                if (bri.IsBusy == true)
+                {
+                    MessageBox.Show("Данная бригада занята, выберите другую", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+            }
             try
             {
+
                 selected.Name = NameTypeOfSituationTextBox.Text;
                 selected.StatusOfAppointment = StatusOfAppointmentAppoinmentTextBox.Text;
                 selected.RequestId = Convert.ToInt32(RequestIdAppoinmentComboBox.Text);
@@ -1114,8 +1307,10 @@ namespace PP11
                 MessageBox.Show("Назначение Изменено", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Exception ex)
-            { ResetContext(); 
-                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void DeleteButtonAppoinment_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1142,7 +1337,8 @@ namespace PP11
                 catch (Exception ex)
                 {
                     ResetContext();
-                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error); }
+                    MessageBox.Show("Ошибка", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
         #endregion
@@ -1239,6 +1435,16 @@ namespace PP11
             StatusOfAppointmentAppoinmentTextBox.SelectedItem = null;
             RequestIdAppoinmentComboBox.Text = null;
             BrigadeIdAppoinmentTextBox.Text = null;
+        }
+
+        private void ClearOformit()
+        {
+            FIOOformitTextBox.Text = null;
+            AdresOformitComboBox.Text = null;
+            ZoneOformietTextBox.Text = null;
+            TypeOfSituationOformitTextBox.Text = null;
+            StatusOborudovaniyaOformitTextBox.Text= null;
+            DiscribingProblemOformitgTextBox.Text = null;
         }
         #endregion
 
@@ -1377,53 +1583,137 @@ namespace PP11
         private void ToDocumentButtonOformit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
 
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Документ Word (*.docx)|*.docx";
+            saveFileDialog.FileName = "МойДокумент.docx";
+
+
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var doc = new WordDocument();
+                var lines = new string[] { "Фамилия Имя Отчество(если есть):________________________________________________________________________",
+                "Адрес объекта:__________________________________________________________________________________________________________________________________________________",
+                "Район объекта:__________________________________________________________________________________________________________________________________________________",
+                "Тип аварийной ситуаци(можно свой):_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________",
+                "Статус оборудования на объекте(Отметьте галочкой):"," • Исправно ❒"," • ТребуетсяРемонт ❒"," • Аварийное ❒",
+                "Опишите свою проблему ниже:"};
+
+                var Title = new string[] { "Заявка",
+                ""};
+                
+                foreach (string title in Title)
+                {
+                    var paragraph = new Paragraph();
+                    paragraph.Alignment = IronSoftware.Abstractions.Word.TextAlignment.Center;
+                    var textRun = new IronWord.Models.Run(new TextContent(title));
+                    textRun.Style = new TextStyle()
+                    {
+                        FontSize = 16,
+                        Color = Color.Black,
+                        TextFont = new Font() { FontFamily = "Times New Roman" },
+                        Spacing = 0,
+                        IsBold = true,
+                    };
+                    paragraph.AddChild(textRun);
+                    doc.AddParagraph(paragraph);
+                }
+
+                foreach (string line in lines)
+                {
+
+                    var par = new Paragraph();
+                    var textRunn = new IronWord.Models.Run(new TextContent(line));
+                    textRunn.Style = new TextStyle()
+                    {
+                        FontSize = 12,
+                        Color = Color.Black,
+                        TextFont = new Font() { FontFamily = "Times New Roman" },
+                        Spacing = 0,
+                    };
+
+                    par.AddChild(textRunn);
+                    doc.AddParagraph(par);
+                }
+
+                doc.SaveAs(saveFileDialog.FileName);
+                MessageBox.Show("Документ Word успешно сохранен");
+            }
         }
+        
 
         private void AddButtonOformit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            string error = "";
+            if (FIOOformitTextBox.Text == "") error += "Выбирете ФИО Абонента\n";
+            if (AdresOformitComboBox.Text == "") error += "Выберите адрес объекта\n";
+            if (ZoneOformietTextBox.Text == "") error += "Заполните район, выбрав объект\n";
+            if (TypeOfSituationOformitTextBox.Text == "") error += "Выбирете тип аварийной ситуации\n";
+            if (StatusOborudovaniyaOformitTextBox.Text == "") error += "Выбирете статус оборудования\n";
+            if (DiscribingProblemOformitgTextBox.Text == "") error += "Опишите проблему\n";
+            if (error != "")
+            {
+                MessageBox.Show(error, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            try
+            {
+                int idAb = (db.Abonents.FirstOrDefault(a => a.FIO == FIOOformitTextBox.Text).Id);
+                int idOb = (db.Objects.FirstOrDefault(a => a.Adress == AdresOformitComboBox.Text).Id);
+                int idTy = (db.TypesOfSituation.FirstOrDefault(a => a.Name == TypeOfSituationOformitTextBox.Text).ID);
+                var request = new Request(DateTime.Now, DiscribingProblemOformitgTextBox.Text, SourceOfRequestList[2], RequestStatusList[0],null,null,null,null,null,null,null,false,idAb,idOb,idTy);
+                db.Requests.Add(request);
+                db.SaveChanges();
+                LoadAllData();
+                ClearOformit();
+                MessageBox.Show("Заявка добавлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
+                int idreg = db.Requests.Max(r => r.Id);
+                var brigade = (from b in db.Brigades where b.IsBusy == false select b).ToList();
+                if (brigade != null)
+                {
+                    Random random = new Random();
+                    int br = random.Next(0, brigade.Count);
+                    var brig = new Appoinment($"Назначение по заявке {idreg}", null, StatusOfAppointmentList[0], idreg, brigade[br].Id);
+                    db.Appoinments.Add(brig);
+                    brigade[br].IsBusy = true;
+                    db.SaveChanges();
+                    LoadAllData();
+                    MessageBox.Show("По вашей заявке была назначена бригада, ожидайте", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                else
+                {
+                    MessageBox.Show("В данный момент нет свободных бригад, ожидайте назначения бригады оператором", "Информация", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                ResetContext();
+                MessageBox.Show("Ошибка, проверьте корректность введенных данных", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void ClearButtonOformit_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
+            ClearOformit();
         }
 
-        private void FIOOformitTextBox_TextChanged(object sender, RoutedEventHandler e)
-        {
-            
-        }
-
-        private void AdresOformitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string selectedAdress = AdresOformitComboBox.SelectedItem as string;
-
-            if (string.IsNullOrEmpty(selectedAdress))
-            {
-                ZoneOformietTextBox.Text = "";
-                return;
-            }
-
-            // Ищем объект по адресу
-            var selectedObject = currentAbonentObjects
-                .FirstOrDefault(o => o.Adress == selectedAdress);
-
-            if (selectedObject != null)
-            {
-                // Подставляем район
-                ZoneOformietTextBox.Text = selectedObject.Zones.ToString();
-            }
-            else
-            {
-                ZoneOformietTextBox.Text = "";
-            }
-        }
+        
         #endregion
 
         private void FIOOformitTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            string fio = FIOOformitTextBox.Text.Trim();
+            if (FIOOformitTextBox.SelectedItem == null)
+            {
+                AdresOformitComboBox.ItemsSource = null;
+                AdresOformitComboBox.Text = "";
+                ZoneOformietTextBox.Text = "";
+                AdresOformitComboBox.IsEnabled = false;
+                currentAbonentObjects.Clear();
+                return;
+            }
 
+            string fio = FIOOformitTextBox.SelectedItem.ToString().Trim();
 
             if (string.IsNullOrEmpty(fio))
             {
@@ -1435,54 +1725,90 @@ namespace PP11
                 return;
             }
 
-            // Ищем абонента по ФИО (точное совпадение)
-            var abonent = db.Abonents
-                .FirstOrDefault(a => a.FIO == fio);
-
-            if (abonent == null)
+            try
             {
-                // Абонент НЕ найден
-                MessageBox.Show(
-                    "Абонент с таким ФИО не найден в базе данных.\n" +
-                    "Пожалуйста, зарегистрируйте его на вкладке 'Абоненты'.",
-                    "Абонент не найден",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning
-                );
+                // Ищем абонента по ФИО
+                var abonent = db.Abonents
+                    .FirstOrDefault(a => a.FIO == fio);
 
-                AdresOformitComboBox.ItemsSource = null;
-                AdresOformitComboBox.Text = "";
+                if (abonent == null)
+                {
+                    MessageBox.Show(
+                        "Абонент с таким ФИО не найден в базе данных.\n" +
+                        "Пожалуйста, зарегистрируйте его на вкладке 'Абоненты'.",
+                        "Абонент не найден",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                    );
+
+                    AdresOformitComboBox.ItemsSource = null;
+                    AdresOformitComboBox.Text = "";
+                    ZoneOformietTextBox.Text = "";
+                    AdresOformitComboBox.IsEnabled = false;
+                    currentAbonentObjects.Clear();
+                    return;
+                }
+
+                // ✅ Загружаем объекты абонента
+                var objects = db.Objects
+                    .Where(o => o.AbonentID == abonent.Id)
+                    .ToList();
+
+                currentAbonentObjects = objects;
+
+                if (currentAbonentObjects.Any())
+                {
+                    // ✅ Заполняем ComboBox адресами
+                    AdresOformitComboBox.ItemsSource = currentAbonentObjects
+                        .Select(o => o.Adress)
+                        .ToList();
+                    AdresOformitComboBox.IsEnabled = true;
+                    AdresOformitComboBox.Text = "";
+                    ZoneOformietTextBox.Text = "";
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "У данного абонента нет зарегистрированных объектов.\n" +
+                        "Добавьте объект на вкладке 'Объекты'.",
+                        "Нет объектов",
+                        MessageBoxButton.OK,
+                        MessageBoxImage.Warning
+                    );
+                    AdresOformitComboBox.ItemsSource = null;
+                    AdresOformitComboBox.IsEnabled = false;
+                    ZoneOformietTextBox.Text = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке объектов: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void AdresOformitComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // Получаем выбранный адрес как строку
+            string selectedAdress = AdresOformitComboBox.SelectedItem as string;
+
+            // Если адрес не выбран или пустой — очищаем поле района
+            if (string.IsNullOrEmpty(selectedAdress))
+            {
                 ZoneOformietTextBox.Text = "";
-                AdresOformitComboBox.IsEnabled = false;
-                currentAbonentObjects.Clear();
                 return;
             }
-            var objects = db.Objects
-    .Where(o => o.AbonentID == abonent.Id)
-    .ToList();
-            // Абонент найден — загружаем его объекты
-            currentAbonentObjects = objects;
 
-            if (currentAbonentObjects.Any())
+            // Ищем объект с таким адресом в заранее загруженном списке currentAbonentObjects
+            var selectedObject = currentAbonentObjects
+                .FirstOrDefault(o => o.Adress == selectedAdress);
+
+            if (selectedObject != null)
             {
-                // Заполняем ComboBox адресами
-                AdresOformitComboBox.ItemsSource = currentAbonentObjects.Select(o => o.Adress).ToList();
-                AdresOformitComboBox.IsEnabled = true;
-                AdresOformitComboBox.Text = "";
-                ZoneOformietTextBox.Text = "";
+                // Подставляем район в текстовое поле
+                ZoneOformietTextBox.Text = selectedObject.Zones;
             }
             else
             {
-                // У абонента нет объектов
-                MessageBox.Show(
-                    "У данного абонента нет зарегистрированных объектов.\n" +
-                    "Добавьте объект на вкладке 'Объекты'.",
-                    "Нет объектов",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Warning
-                );
-                AdresOformitComboBox.ItemsSource = null;
-                AdresOformitComboBox.IsEnabled = false;
+                // Если объект не найден — очищаем поле
                 ZoneOformietTextBox.Text = "";
             }
         }
