@@ -1,6 +1,8 @@
 ﻿using Azure.Identity;
+using IronSoftware.Abstractions.Word;
 using IronWord;
 using IronWord.Models;
+using IronWord.Models.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using PP11.Data;
@@ -19,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Collections.Specialized.BitVector32;
 using Color = IronWord.Models.Color;
 using Paragraph = IronWord.Models.Paragraph;
 
@@ -1134,7 +1137,7 @@ namespace PP11
                 selected.ResultOfAppoinment = ResultOfAppoinmentReguestCloseTextBox.Text;
                 selected.CommentOfClose = CommentOfCloseReguestCloseTextBox.Text;
                 selected.InformingOfAbonent = InformingOfAbonentReguestCloseTextBox.IsChecked.Value;
-
+                selected.Status = RequestStatusList[3];
                 db.SaveChanges();
                 LoadAllData();
                 ClearRequestClose();
@@ -1151,7 +1154,7 @@ namespace PP11
         #region requestFull
         private void DeleteButtonFullReguestCloseCreate_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ReguestClose_DataGrid.SelectedItem is not Request selected)
+            if (FullReguest_DataGrid.SelectedItem is not Request selected)
             {
                 MessageBox.Show("Выберите Заявку для редактирования", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -1182,43 +1185,126 @@ namespace PP11
         {
 
 
-            User user = (User)User_DataGrid.SelectedItem;
 
+            if (FullReguest_DataGrid.SelectedItem is not Request selected)
+            {
+                MessageBox.Show("Выберите Заявку для создания отчета", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            if(selected.Status != RequestStatusList[3])
+            {
+                MessageBox.Show("Отчет по заявке недоступен, тк она не закрыта", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             var saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "Документ Word (*.docx)|*.docx";
             saveFileDialog.FileName = "МойДокумент.docx";
+            var type = (from t in db.TypesOfSituation where selected.TypeId == t.ID select t).FirstOrDefault();
+            var objectt = (from t in db.Objects where selected.ObjectId == t.Id select t).FirstOrDefault();
+            var abonent = (from t in db.Abonents where selected.AbonentId == t.Id select t).FirstOrDefault();
+            var appoin = (from t in db.Appoinments where selected.Id == t.RequestId select t).FirstOrDefault();
+            var briga = (from t in db.Brigades where appoin.BrigadeId == t.Id select t).FirstOrDefault();
 
             if (saveFileDialog.ShowDialog() == true)
             {
                 var doc = new WordDocument();
 
-                var textRun = new IronWord.Models.Run(new TextContent($"Id Пользователя:{user.Id}"));
-                textRun.AddText($"Id Пользователя:{user.Id}\nФИО Пользователя: {user.FIO}");
+                var section = doc.Sections[0];
+                section.PageSetup.SetTopMargin(2, MeasurementUnit.Centimeter);
+                section.PageSetup.SetBottomMargin(2, MeasurementUnit.Centimeter);
+                section.PageSetup.SetLeftMargin(3, MeasurementUnit.Centimeter);
+                section.PageSetup.SetRightMargin(1.5, MeasurementUnit.Centimeter);
+                section.PageSetup.Orientation = PageOrientation.Portrait;
 
-                textRun.Style = new TextStyle()
+                    Paragraph par= new Paragraph();
+                ImageContent image = new ImageContent("C:\\Users\\E\\source\\repos\\PP11\\PP11\\Icons\\476aab53-ead5-4ad1-8c8e-57569fef13fa.png");
+                image.TextWrapBehavior = new TextWrapSquare();
+                image.Width = 100;
+                image.Height = 100;
+                image.DistanceFromTop = 50;
+
+                var position = new ElementPosition();
+                position.SetXPosition(6.5,MeasurementUnit.Centimeter);
+                position.SetYPosition(0);
+                image.Position = position;
+                par.AddImage(image);
+                    section.AddParagraph(par);
+                var Title = new string[] { $"Отчет по заявке {selected.Id}", "" };
+
+
+                foreach (string title in Title)
                 {
-                    FontSize = 14,
-                    IsBold = false,
-                    Color = System.Drawing.Color.Black,
-                    TextFont = new Font()
+                    var paragraph = new Paragraph();
+                    paragraph.Alignment = IronSoftware.Abstractions.Word.TextAlignment.Center;
+                    var textRun = new IronWord.Models.Run(new TextContent(title));
+                    textRun.Style = new TextStyle()
                     {
-                        FontFamily = "Times New Roman"
-                    }
-                };
+                        FontSize = 16,
+                        Color = Color.Black,
+                        TextFont = new Font() { FontFamily = "Times New Roman" },
+                        Spacing = 0,
+                        IsBold = true,
+                    };
+                    paragraph.AddChild(textRun);
+                    section.AddParagraph(paragraph);
+                }
 
-                var paragraph = new Paragraph();
-                paragraph.AddChild(textRun);
+                var lines = new string[] {
+            $"Номер заявки:                            {selected.Id}",
+            $"Источник обращения:                      {selected.SourceOfReguest}",
+            $"Текущий статус заявки:                   {selected.Id}",
+            $"Заявитель(Id, ФИО):                      {selected.AbonentId}, {abonent.FIO}",
+            $"Лицевой счет заявителя:                  {abonent.LichesevoiSchet}",
+            $"Серия и номер паспорта заявителя:        {abonent.PassportSer}, {abonent.PassportNum}",
+            $"Id и адрес объекта заявки:               {selected.ObjectId}, {objectt.Adress}",
+            $"Район объекта:                           {objectt.Zones}",
+            $"Тип объекта:                             {objectt.ObjectsType}",
+            $"Тип оборудования на объекте:             {objectt.OborudovanieType}",
+            $"Год ввода в эксплуатацию:                {objectt.YearExpluatation}",
+            $"Статус оборудования:                     {objectt.StatusOborudovaniya}",
+            $"Тип аварийной ситуации(Id,наим.):        {type.ID}, {type.Name}",
+            $"Категория опасности:                     {type.Danger}",
+            "",
+            "                           Проведенные работы",
+            "",
+            $"Дата начала работ:                       {selected.DateOfStart}",
+            $"Дата окончания работ:                    {selected.DateOfEnd}",
+            $"Описание работ:                          {selected.DescriptionOfWork}",
+            $"Используемые материалы:                  {selected.UsingMaterials}",
+            $"Статус назначения бригады:               {appoin.StatusOfAppointment}",
+            $"Результат назначения бригады:            {selected.ResultOfAppoinment}",
+            $"ID и наименование бригады:               {briga.Id}, {briga.Name}",
+            $"ID и ФИО старшего в бригаде:             {briga.EmployeeID}, {((from g in db.Employees where briga.EmployeeID == g.Id select g).FirstOrDefault()).Id}",
+            $"Комментарий закрытия:                    {selected.CommentOfClose}",
+            "",
+            "",
+            "",
+            "Подпись и расшифровка старшего в бригаде ________________________________________",
+            "",
+            "Дата подписи ____________",
+            "",
+            $"Дата формирования отчета - {(DateTime.Now).ToString()}"
 
-                doc.AddParagraph(paragraph);
 
+        };
+                foreach (string line in lines)
+                {
+                    var parb = new Paragraph();
+                    var textRunn = new IronWord.Models.Run(new TextContent(line));
+                    textRunn.Style = new TextStyle()
+                    {
+                        FontSize = 12,
+                        Color = Color.Black,
+                        TextFont = new Font() { FontFamily = "Times New Roman" },
+                        Spacing = 0,
+                    };
+
+                    parb.AddChild(textRunn);
+                    section.AddParagraph(parb);
+                }
                 doc.SaveAs(saveFileDialog.FileName);
-
-                MessageBox.Show("Документ Word успешно создан!", "Успех");
+                MessageBox.Show("Документ Word успешно сохранен");
             }
-
-
-
-
         }
         #endregion
         #region Appoinment
@@ -1587,21 +1673,50 @@ namespace PP11
             saveFileDialog.Filter = "Документ Word (*.docx)|*.docx";
             saveFileDialog.FileName = "МойДокумент.docx";
 
-
-
             if (saveFileDialog.ShowDialog() == true)
             {
                 var doc = new WordDocument();
-                var lines = new string[] { "Фамилия Имя Отчество(если есть):________________________________________________________________________",
-                "Адрес объекта:__________________________________________________________________________________________________________________________________________________",
-                "Район объекта:__________________________________________________________________________________________________________________________________________________",
-                "Тип аварийной ситуаци(можно свой):_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________",
-                "Статус оборудования на объекте(Отметьте галочкой):"," • Исправно ❒"," • ТребуетсяРемонт ❒"," • Аварийное ❒",
-                "Опишите свою проблему ниже:"};
 
-                var Title = new string[] { "Заявка",
-                ""};
-                
+
+                var section = doc.Sections[0];
+
+
+                section.PageSetup.SetTopMargin(2, MeasurementUnit.Centimeter);
+                section.PageSetup.SetBottomMargin(2, MeasurementUnit.Centimeter);
+                section.PageSetup.SetLeftMargin(3, MeasurementUnit.Centimeter);
+                section.PageSetup.SetRightMargin(1.5, MeasurementUnit.Centimeter);
+
+
+                section.PageSetup.Orientation = PageOrientation.Portrait;
+
+
+                var lines = new string[] {
+            "Фамилия Имя Отчество(если есть):________________________________________________________________________",
+            "Адрес объекта:__________________________________________________________________________________________________________________________________________________",
+            "Район объекта:__________________________________________________________________________________________________________________________________________________",
+            "Тип аварийной ситуаци(можно свой):_______________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________",
+            "Статус оборудования на объекте(Отметьте галочкой):",
+            "    • Исправно ❒",
+            "    • ТребуетсяРемонт ❒",
+            "    • Аварийное ❒",
+            "Опишите свою проблему ниже:",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "Подпись и расшифровка                                        Дата:",
+            "_______________________________                        _________________"
+        };
+
+                var Title = new string[] { "Заявка", "" };
+
+
                 foreach (string title in Title)
                 {
                     var paragraph = new Paragraph();
@@ -1616,12 +1731,12 @@ namespace PP11
                         IsBold = true,
                     };
                     paragraph.AddChild(textRun);
-                    doc.AddParagraph(paragraph);
+                    section.AddParagraph(paragraph);
                 }
+
 
                 foreach (string line in lines)
                 {
-
                     var par = new Paragraph();
                     var textRunn = new IronWord.Models.Run(new TextContent(line));
                     textRunn.Style = new TextStyle()
@@ -1633,7 +1748,7 @@ namespace PP11
                     };
 
                     par.AddChild(textRunn);
-                    doc.AddParagraph(par);
+                    section.AddParagraph(par);
                 }
 
                 doc.SaveAs(saveFileDialog.FileName);
@@ -1663,12 +1778,16 @@ namespace PP11
                 int idTy = (db.TypesOfSituation.FirstOrDefault(a => a.Name == TypeOfSituationOformitTextBox.Text).ID);
                 var request = new Request(DateTime.Now, DiscribingProblemOformitgTextBox.Text, SourceOfRequestList[2], RequestStatusList[0],null,null,null,null,null,null,null,false,idAb,idOb,idTy);
                 db.Requests.Add(request);
+
+                var obj = (from b in db.Objects where b.Id == idOb select b).FirstOrDefault();
+                obj.StatusOborudovaniya = StatusOborudovaniyaOformitTextBox.Text;
                 db.SaveChanges();
                 LoadAllData();
                 ClearOformit();
                 MessageBox.Show("Заявка добавлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 int idreg = db.Requests.Max(r => r.Id);
                 var brigade = (from b in db.Brigades where b.IsBusy == false select b).ToList();
+
                 if (brigade != null)
                 {
                     Random random = new Random();
@@ -1699,7 +1818,7 @@ namespace PP11
         }
 
         
-        #endregion
+        
 
         private void FIOOformitTextBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
@@ -1812,5 +1931,6 @@ namespace PP11
                 ZoneOformietTextBox.Text = "";
             }
         }
+        #endregion
     }
 }
