@@ -142,7 +142,7 @@ namespace PP11
             {
                 TabControlMain.SelectedItem = RequestTabItem;
                 DeleteButtonAbonent.Visibility = Visibility.Collapsed;
-                DeleteButtonAppoinment.Visibility = Visibility.Collapsed;
+                DeleteButtonAppoinment.Visibility = Visibility.Collapsed; 
                 DeleteButtonBrigade.Visibility = Visibility.Collapsed;
                 DeleteButtonEmployee.Visibility = Visibility.Collapsed;
                 DeleteButtonObject.Visibility = Visibility.Collapsed;

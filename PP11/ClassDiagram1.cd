@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PP11.Data.ContextDB">
+    <Position X="5.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQCAgAQAAAAAAAAgAEAAAGAAQAAEAAAAAABAAAAA=</HashCode>
+      <FileName>Data\ContextDB.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.Abonent">
+    <Position X="9.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAAQAAAAAABAgAAABAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Models\Abonent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.Appoinment">
+    <Position X="12.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACAAAAAQAAAAAAAQAAAAAgAAAAYAAAAAAQAA=</HashCode>
+      <FileName>Models\Appoinment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.Brigade">
+    <Position X="15.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAAAAAAAAAAAAARCCAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Models\Brigade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.Employee">
+    <Position X="10.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACABAACAAAAAAAAAAAAAAACAAAAAAAAACAAAAAQAA=</HashCode>
+      <FileName>Models\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.MembersOfBrigade">
+    <Position X="6.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAACAAAAABAAAAAAAAACAAAAAAAAQAAAAACAAA=</HashCode>
+      <FileName>Models\MembersOfBrigade.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.Object">
+    <Position X="12.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAIAAAAAAAAAAAAAAACAAgAAAAAAAGwAAAAAAA=</HashCode>
+      <FileName>Models\Object.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.Request">
+    <Position X="3.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>UAACAgAMAAAQIAAgQACAAABAABAQAAAgAAEIABBAAAA=</HashCode>
+      <FileName>Models\Request.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.TypesOfSituation">
+    <Position X="11" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAggAAAAAAAAAQAIAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Models\TypesOfSituation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Models.User">
+    <Position X="12.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgACAAAAACAAAAAAEAAAAAAAAAAAAAACCAAQAEAIAAA=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.LoginWindow" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAQAAAAAAIAABAACEAEAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Windows\LoginWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PP11.MainWindow" BaseTypeListCollapsed="true">
+    <Position X="8.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IShaWowAAACQQA2DIggBYQgD0CpAmyPAgDIiAASAIC0=</HashCode>
+      <FileName>Windows\MainWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PP11.RegistrationWindow" BaseTypeListCollapsed="true">
+    <Position X="15.75" Y="7.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAABQAAAEAAAAAAAgIAgAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>Windows\RegistrationWindow.xaml.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="PP11.App">
+    <Position X="11" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>App.xaml.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PP11.Class1">
+    <Position X="8.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Class1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="PP11.Enums.Filials" Collapsed="true">
+    <Position X="6.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gACAAAAAAAAAAABAAAIAAEIAAAEAAAAAQQAAEAAAAAA=</HashCode>
+      <FileName>Enums\Filials.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
