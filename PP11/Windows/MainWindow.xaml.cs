@@ -141,12 +141,16 @@ namespace PP11
             if (role == RolesList[1])
             {
                 TabControlMain.SelectedItem = RequestTabItem;
-                AbonentTabItem.Visibility = Visibility.Collapsed;
-                EmployeeTabItem.Visibility = Visibility.Collapsed;
-                ObjectTabItem.Visibility = Visibility.Collapsed;
-                AbonentTabItem.Visibility = Visibility.Collapsed;
-                MembersOfBrigadeTabItem.Visibility = Visibility.Collapsed;
-                TypeTabItem.Visibility = Visibility.Collapsed;
+                DeleteButtonAbonent.Visibility = Visibility.Collapsed;
+                DeleteButtonAppoinment.Visibility = Visibility.Collapsed;
+                DeleteButtonBrigade.Visibility = Visibility.Collapsed;
+                DeleteButtonEmployee.Visibility = Visibility.Collapsed;
+                DeleteButtonObject.Visibility = Visibility.Collapsed;
+                DeleteButtonTypeOfSituation.Visibility = Visibility.Collapsed;
+                DeleteButtonFullReguestCloseCreate.Visibility = Visibility.Collapsed;
+
+
+
                 UserTabItem.Visibility = Visibility.Collapsed;
             }
             if (role == RolesList[2])
@@ -1241,9 +1245,17 @@ namespace PP11
                 section.PageSetup.SetLeftMargin(3, MeasurementUnit.Centimeter);
                 section.PageSetup.SetRightMargin(1.5, MeasurementUnit.Centimeter);
                 section.PageSetup.Orientation = PageOrientation.Portrait;
-
+                string imagePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "476aab53-ead5-4ad1-8c8e-57569fef13fa.png");
+                ImageContent image = new ImageContent(imagePath);
+                image.Width = 80;
+                image.Height = 80;
+                var position = new ElementPosition();
+                position.SetXPosition(6.5, MeasurementUnit.Centimeter);
+                image.Position = position;
 
                 Paragraph par= new Paragraph();
+                par.AddImage(image);
+                section.AddParagraph(par);
                 var Title = new string[] { $"Отчет по заявке {selected.Id}", "" };
 
 
@@ -1793,7 +1805,7 @@ namespace PP11
                 int idTy = (db.TypesOfSituation.FirstOrDefault(a => a.Name == TypeOfSituationOformitTextBox.Text).ID);
                 var request = new Request(DateTime.Now, DiscribingProblemOformitgTextBox.Text, SourceOfRequestList[2], RequestStatusList[0],null,null,null,null,null,null,null,false,idAb,idOb,idTy);
                 db.Requests.Add(request);
-
+                var brigade = (from b in db.Brigades where b.IsBusy == false && ZoneOformietTextBox.Text == b.Zones select b).ToList();
                 var obj = (from b in db.Objects where b.Id == idOb select b).FirstOrDefault();
                 obj.StatusOborudovaniya = StatusOborudovaniyaOformitTextBox.Text;
                 db.SaveChanges();
@@ -1801,7 +1813,7 @@ namespace PP11
                 ClearOformit();
                 MessageBox.Show("Заявка добавлена", "Успех", MessageBoxButton.OK, MessageBoxImage.Information);
                 int idreg = db.Requests.Max(r => r.Id);
-                var brigade = (from b in db.Brigades where b.IsBusy == false select b).ToList();
+
 
                 if (brigade != null)
                 {

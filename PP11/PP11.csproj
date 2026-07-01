@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Icons\476aab53-ead5-4ad1-8c8e-57569fef13fa.png" />
     <None Remove="Icons\Add.png" />
     <None Remove="Icons\Del.png" />
     <None Remove="Icons\free-icon-document-3936484.png" />
@@ -33,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Icons\476aab53-ead5-4ad1-8c8e-57569fef13fa.png" />
+    <Resource Include="Icons\лнглгнлгн.png" />
     <Resource Include="Icons\Add.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
