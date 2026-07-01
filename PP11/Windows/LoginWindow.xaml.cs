@@ -59,7 +59,9 @@ namespace PP11
 
             if (EnterUser.Password == PasswordPasswordBox.Password)
             {
-                MainWindow mainWindow = new MainWindow();
+                EnterUser.LastEnter = DateTime.Now;
+                db.SaveChanges();
+                MainWindow mainWindow = new MainWindow(EnterUser.Role);
                 mainWindow.Show(); this.Close();
             }
             else

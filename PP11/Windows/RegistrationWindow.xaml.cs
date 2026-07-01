@@ -20,11 +20,17 @@ namespace PP11
     /// </summary>
     public partial class RegistrationWindow : Window
     {
+        private List<string> RolesList = new List<string>
+    {
+        "Администратор",
+        "Диспетчер",
+        "Специалист по заявкам"
+    };
         private ContextDB db = new ContextDB();
         public RegistrationWindow()
         {
             InitializeComponent();
-            RolesComboBox.ItemsSource = Enum.GetValues(typeof(Roles));
+            RolesComboBox.ItemsSource = RolesList;
             FilialComboBox.ItemsSource = Enum.GetValues(typeof(Filials));
         }
 

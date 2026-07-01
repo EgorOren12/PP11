@@ -90,7 +90,7 @@ namespace PP11
     {
         "Администратор",
         "Диспетчер",
-        "Руководитель"
+        "Специалист по заявкам"
     };
         private List<string> SourceOfRequestList = new List<string>
     {
@@ -134,9 +134,35 @@ namespace PP11
             "2/2 20.00 - 8.00",
             "4/4 18.00 - 8.00"
         };
-        public MainWindow()
+        public MainWindow(string role)
         {
+
             InitializeComponent();
+            if (role == RolesList[1])
+            {
+                TabControlMain.SelectedItem = RequestTabItem;
+                AbonentTabItem.Visibility = Visibility.Collapsed;
+                EmployeeTabItem.Visibility = Visibility.Collapsed;
+                ObjectTabItem.Visibility = Visibility.Collapsed;
+                AbonentTabItem.Visibility = Visibility.Collapsed;
+                MembersOfBrigadeTabItem.Visibility = Visibility.Collapsed;
+                TypeTabItem.Visibility = Visibility.Collapsed;
+                UserTabItem.Visibility = Visibility.Collapsed;
+            }
+            if (role == RolesList[2])
+            {
+                TabControlMain.SelectedItem = OformitTabItem;
+                AbonentTabItem.Visibility = Visibility.Collapsed;
+                EmployeeTabItem.Visibility = Visibility.Collapsed;
+                ObjectTabItem.Visibility = Visibility.Collapsed;
+                AbonentTabItem.Visibility = Visibility.Collapsed;
+                MembersOfBrigadeTabItem.Visibility = Visibility.Collapsed;
+                TypeTabItem.Visibility = Visibility.Collapsed;
+                UserTabItem.Visibility = Visibility.Collapsed;
+                BrigadeTabItem.Visibility = Visibility.Collapsed;
+                RequestTabItem.Visibility = Visibility.Collapsed;
+                AppointmentTabItem.Visibility = Visibility.Collapsed;
+            }
             db = new ContextDB();
             LoadAllData();
 
@@ -1216,19 +1242,8 @@ namespace PP11
                 section.PageSetup.SetRightMargin(1.5, MeasurementUnit.Centimeter);
                 section.PageSetup.Orientation = PageOrientation.Portrait;
 
-                    Paragraph par= new Paragraph();
-                ImageContent image = new ImageContent("C:\\Users\\E\\source\\repos\\PP11\\PP11\\Icons\\476aab53-ead5-4ad1-8c8e-57569fef13fa.png");
-                image.TextWrapBehavior = new TextWrapSquare();
-                image.Width = 100;
-                image.Height = 100;
-                image.DistanceFromTop = 50;
 
-                var position = new ElementPosition();
-                position.SetXPosition(6.5,MeasurementUnit.Centimeter);
-                position.SetYPosition(0);
-                image.Position = position;
-                par.AddImage(image);
-                    section.AddParagraph(par);
+                Paragraph par= new Paragraph();
                 var Title = new string[] { $"Отчет по заявке {selected.Id}", "" };
 
 
@@ -1265,7 +1280,7 @@ namespace PP11
             $"Тип аварийной ситуации(Id,наим.):        {type.ID}, {type.Name}",
             $"Категория опасности:                     {type.Danger}",
             "",
-            "                           Проведенные работы",
+            "__________________________Проведенные работы:_______________________________",
             "",
             $"Дата начала работ:                       {selected.DateOfStart}",
             $"Дата окончания работ:                    {selected.DateOfEnd}",

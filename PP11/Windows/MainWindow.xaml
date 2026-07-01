@@ -16,8 +16,8 @@
                Background="#006CB5" Foreground="White" FontSize="40" FontFamily="Sitka Text" FontWeight="Bold"
                />
         <TabControl Grid.Row="1" Margin="10" SelectionChanged="TabControl_SelectionChanged" 
-                    Background="#E0E0E0" BorderBrush="Transparent">
-            <TabItem Header="Абоненты" Background="#006CB5" Foreground="White">
+                    Background="#E0E0E0" BorderBrush="Transparent" Name="TabControlMain">
+            <TabItem Header="Абоненты" Background="#006CB5" Foreground="White" Name="AbonentTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -117,7 +117,7 @@
                 </Grid>
                 
             </TabItem>
-            <TabItem Header="Сотрудники" Background="#006CB5" Foreground="White">
+            <TabItem Header="Сотрудники" Background="#006CB5" Foreground="White" Name="EmployeeTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -208,7 +208,7 @@
                 </Grid>
 
             </TabItem>
-            <TabItem Header="Объекты" Background="#006CB5" Foreground="White">
+            <TabItem Header="Объекты" Background="#006CB5" Foreground="White" Name="ObjectTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -315,7 +315,7 @@
 
             </TabItem>
 
-            <TabItem Header="Бригады" Background="#006CB5" Foreground="White">
+            <TabItem Header="Бригады" Background="#006CB5" Foreground="White" Name="BrigadeTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -417,7 +417,7 @@
 
             </TabItem>
 
-            <TabItem Header="Члены бригады" Background="#006CB5" Foreground="White">
+            <TabItem Header="Члены бригады" Background="#006CB5" Foreground="White" Name="MembersOfBrigadeTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -503,7 +503,7 @@
 
             </TabItem>
 
-            <TabItem Header="Пользователи" Background="#006CB5" Foreground="White">
+            <TabItem Header="Пользователи" Background="#006CB5" Foreground="White" Name="UserTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -620,7 +620,7 @@
 
             </TabItem>
 
-            <TabItem Header="Тип аварийной ситуации" Background="#006CB5" Foreground="White">
+            <TabItem Header="Тип аварийной ситуации" Background="#006CB5" Foreground="White" Name="TypeTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -711,11 +711,11 @@
 
             </TabItem>
 
-            <TabItem Header="Заявки" Background="#006CB5" Foreground="White">
-                <TabControl SelectionChanged="TabControl_SelectionChanged" 
+            <TabItem Header="Заявки" Background="#006CB5" Foreground="White" Name="RequestTabItem">
+                <TabControl SelectionChanged="TabControl_SelectionChanged" Name="RequestTabControl" 
                     Background="#E0E0E0" BorderBrush="Transparent">
-                    
-                    <TabItem Header="Открытие заявки" Background="#006CB5" Foreground="White">
+
+                    <TabItem Header="Открытие заявки" Background="#006CB5" Foreground="White" Name="RequestCreateTabItem">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -814,7 +814,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Закрытие заявки" Background="#006CB5" Foreground="White">
+                    <TabItem Header="Закрытие заявки" Background="#006CB5" Foreground="White" Name="RequestCloseTabItem">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -918,7 +918,7 @@
                         </Grid>
                     </TabItem>
 
-                    <TabItem Header="Общая информация о заявке" Background="#006CB5" Foreground="White">
+                    <TabItem Header="Общая информация о заявке" Background="#006CB5" Foreground="White" Name="RequestFullTabItem">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="6*"/>
@@ -973,7 +973,7 @@
                 
             </TabItem>
 
-            <TabItem Header="Назначение" Background="#006CB5" Foreground="White">
+            <TabItem Header="Назначение" Background="#006CB5" Foreground="White" Name="AppointmentTabItem">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -1069,7 +1069,7 @@
 
             </TabItem>
 
-            <TabItem Header="Сформировать заявку" Background="#006CB5" Foreground="White">
+            <TabItem Header="Сформировать заявку" Background="#006CB5" Foreground="White" Name="OformitTabItem">
                 <Grid>
 
                     <Grid.RowDefinitions>
