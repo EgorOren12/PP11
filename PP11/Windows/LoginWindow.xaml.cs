@@ -56,7 +56,11 @@ namespace PP11
                 ErrorLabel.Content = "Пользователь не существует";
                 return;
             }
-
+            if (EnterUser.Activity == false)
+            {
+                ErrorLabel.Content = "Пользователь заблокирован";
+                return;
+            }
             if (EnterUser.Password == PasswordPasswordBox.Password)
             {
                 EnterUser.LastEnter = DateTime.Now;
