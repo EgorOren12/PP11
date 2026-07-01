@@ -94,7 +94,7 @@
         
         <ComboBox Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Margin="10,5,10,5"
                   Background="#E0E0E0" BorderBrush="Transparent" VerticalContentAlignment="Center"
-                  Name="FilialComboBox"/>
+                  Name="FilialComboBox"/>    
 
         <Label Content="Эл.Почта" Grid.Row="8" Grid.Column="0"
             HorizontalAlignment="Right" VerticalAlignment="Center"
